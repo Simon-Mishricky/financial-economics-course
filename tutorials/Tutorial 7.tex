@@ -1,0 +1,162 @@
+\documentclass[11pt]{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    citecolor=blue,
+    urlcolor=blue
+}
+
+\title{Tutorial 7: Blockchain Mechanics and the Double-Spending Problem}
+\author{Financial Economics \\ Research School of Economics, Australian National University \\
+\small Instructor: Simon Mishricky}
+\date{}
+
+\begin{document}
+\maketitle
+
+\noindent\textbf{Source.} The problems below are based on Chiu and Koeppl (2017),
+\emph{The Economics of Cryptocurrencies -- Bitcoin and Beyond} (cited throughout as CK2017).
+
+\medskip
+
+\noindent\textbf{Learning objectives.} After completing this tutorial you should be able to
+\begin{itemize}
+    \item explain how a blockchain functions as a decentralised record-keeping device and how
+          Proof-of-Work (PoW) underpins consensus;
+    \item articulate the double-spending problem and the role of confirmation lags;
+    \item analyse the mining game and derive the no-double-spending constraint;
+    \item compute the probability of a successful secret-mining attack as a function of trade size,
+          rewards, and confirmation lag.
+\end{itemize}
+
+\bigskip
+
+\begin{enumerate}
+
+%--------------------------------------------------------------------
+\item \textbf{Blockchain as memory.}
+A central claim of CK2017 is that the blockchain is a record-keeping device.
+\begin{enumerate}
+    \item In one or two paragraphs, contrast a blockchain with traditional fiat money in terms
+          of how each ``remembers'' past transactions. Why does this difference matter for
+          decentralised payments?
+    \item Why does the longest-chain rule make rewriting old transactions costly? Explain in terms
+          of the PoW that must be redone if a malicious miner wants to revise a block $k$ periods
+          in the past.
+    \item Explain in your own words why a blockchain alone does \emph{not} eliminate
+          forward-looking double-spending attacks.
+\end{enumerate}
+
+%--------------------------------------------------------------------
+\item \textbf{The mining game.}
+Following Section 3.2 of CK2017, $M$ symmetric miners each choose computing power $q(i)$ at unit cost.
+The probability that miner $i$ wins block $n$ is
+\[
+    \rho(i) = \frac{q(i)}{\sum_{m=1}^M q(m)}.
+\]
+The winner receives reward $R$ (in real balances), discounted by $\beta$ across the period.
+\begin{enumerate}
+    \item Write down the miner's per-subperiod problem and derive the first-order condition for $q(i)$.
+    \item Imposing symmetry $q(m)=Q$, show that the Nash equilibrium choice is
+          \[
+              Q \;=\; \frac{M-1}{M^2}\,\beta R.
+          \]
+    \item Compute the aggregate computing cost $MQ$ and show that as $M\to\infty$,
+          $MQ \to \beta R$. Interpret this ``rent dissipation'' result.
+    \item Compute the expected profit of each miner across the full period of $\bar N+1$
+          subperiods and show that it vanishes in the competitive limit.
+\end{enumerate}
+
+%--------------------------------------------------------------------
+\item \textbf{Double-spending attack mechanics.}
+Consider the secret-mining attack of Section 3.3 of CK2017. The buyer must mine $N+1$ blocks
+faster than the rest of the network. Let $\Delta = d/R + (N+1)$.
+\begin{enumerate}
+    \item Explain the intuition for why the buyer must mine $N+1$ \emph{consecutive} blocks
+          (not $N$).
+    \item In the final round (subperiod $N$), the buyer's payoff from investing $q_N$ is
+          \[
+              \rho(q_N)\,\beta[d + (N+1)R] - q_N,
+          \]
+          where the second term in brackets reflects the $N+1$ block rewards the buyer would
+          claim after broadcasting his secret chain. Take $M\to\infty$. Show that the optimal
+          investment satisfies
+          \[
+              \hat q_N(d,N) = \beta R\bigl[\sqrt\Delta - 1\bigr]
+          \]
+          and that the corresponding success probability is
+          \[
+              \rho(\hat q_N) = \frac{\sqrt\Delta - 1}{\sqrt\Delta}.
+          \]
+    \item \emph{Backward induction.} Using the recursive structure
+          $D_n(d,N) = \max_{q_n}\rho(q_n)D_{n+1}(d,N) - q_n$ with terminal condition
+          $D_N(d,N) = \beta R(\sqrt\Delta - 1)^2$, verify by induction that
+          \[
+              D_{N-s}(d,N) = \beta R[\sqrt\Delta - (s+1)]^2,\quad s=0,1,\ldots,N.
+          \]
+\end{enumerate}
+
+%--------------------------------------------------------------------
+\item \textbf{The no-DS constraint.}
+\begin{enumerate}
+    \item Use the result $D_0(d,N) = \beta R[\sqrt\Delta - (N+1)]^2$ to derive the
+          ``double-spending proof'' condition $d < R(N+1)N$.
+    \item Show that the unconditional probability of a successful double spend (when the
+          DS constraint fails) is
+          \[
+              P(d,N) = \frac{\sqrt\Delta - (N+1)}{\sqrt\Delta}.
+          \]
+    \item Discuss qualitatively how $P(d,N)$ varies with $d$, $R$, and $N$. In particular,
+          explain why doubling the confirmation lag has a non-linear effect on attack probability.
+    \item Suppose $R = 0.5$ and consider $N=6$ (Bitcoin's typical merchant standard).
+          What is the largest payment $d$ that can be settled with full finality? Now repeat
+          for $N=1$. Comment on the trade-off.
+\end{enumerate}
+
+%--------------------------------------------------------------------
+\item \textbf{Immediate vs.\ final settlement.}
+CK2017 prove a sharp impossibility theorem: under any PoW protocol, settlement cannot be
+both immediate and final.
+\begin{enumerate}
+    \item Show, using your derivations above, that at $N=0$ the DS constraint
+          $d < R(N+1)N$ fails for any $d>0$.
+    \item Explain in plain English what this implies for retail spot trade in a Bitcoin-like
+          system.
+    \item Compare and contrast the cryptocurrency trade-off (security vs.\ speed of settlement)
+          with the trade-off faced by a centralised payment system (e.g.\ Visa, Fedwire).
+\end{enumerate}
+
+%--------------------------------------------------------------------
+\item \textbf{Mining-reward composition (short).}
+The mining reward in the general equilibrium model is
+\[
+    R = \frac{Z(\mu - 1) + D\tau}{\bar N+1},
+\]
+where $\mu$ is the gross money growth rate, $\tau$ the transaction fee, $Z$ aggregate balances,
+and $D$ aggregate transfers.
+\begin{enumerate}
+    \item Explain the economic interpretation of each of the two terms in the numerator.
+    \item Why is $R$ divided by $\bar N+1$?
+    \item Discuss why, holding $R$ fixed, the choice between financing rewards via $\mu$ or $\tau$
+          might affect different buyers asymmetrically. (We will return to this in Tutorial 8.)
+\end{enumerate}
+
+\end{enumerate}
+
+\begin{thebibliography}{9}
+\bibitem{chiu2017}
+Chiu, J.\ and T.\ V.\ Koeppl (2017). The Economics of Cryptocurrencies -- Bitcoin and Beyond.
+\textit{Bank of Canada Staff Working Paper / Queen's University}.
+
+\bibitem{lagos2005}
+Lagos, R.\ and R.\ Wright (2005). A Unified Framework for Monetary Theory and Policy Analysis.
+\textit{Journal of Political Economy} 113(3), 463--484.
+\end{thebibliography}
+
+\end{document}

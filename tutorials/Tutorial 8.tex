@@ -1,0 +1,160 @@
+\documentclass[11pt]{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    citecolor=blue,
+    urlcolor=blue
+}
+
+\title{Tutorial 8: Optimal Cryptocurrency Design and Welfare}
+\author{Financial Economics \\ Research School of Economics, Australian National University \\
+\small Instructor: Simon Mishricky}
+\date{}
+
+\begin{document}
+\maketitle
+
+\noindent\textbf{Source.} The problems below are based on Chiu and Koeppl (2017),
+\emph{The Economics of Cryptocurrencies -- Bitcoin and Beyond} (cited throughout as CK2017),
+Sections 4.6 and 5. Tutorial 7 covered the mining game and the double-spending constraint;
+here we use those building blocks to study optimal design, calibration, and welfare.
+
+\medskip
+
+\noindent\textbf{Learning objectives.} After completing this tutorial you should be able to
+\begin{itemize}
+    \item state and explain the planner's Ramsey problem for cryptocurrency design;
+    \item explain why optimal design uses seigniorage rather than transaction fees;
+    \item compute consumption-equivalent welfare costs and interpret them in context;
+    \item contrast cryptocurrencies with cash and with centralised payment systems
+          (Fedwire, debit cards);
+    \item articulate the link between scalability and welfare, and the implications for
+          policy debates around CBDCs.
+\end{itemize}
+
+\bigskip
+
+\begin{enumerate}
+
+%--------------------------------------------------------------------
+\item \textbf{The planner's problem.}
+The cryptocurrency designer chooses $(\mu,\tau)$ to maximise social welfare
+\[
+    \mathcal{W} \;=\; B\sigma \!\int [\delta^{N(\varepsilon)}\varepsilon u(x(\varepsilon)) - x(\varepsilon)]\,dF_\varepsilon(\varepsilon) - C(\bar N+1),
+\]
+subject to: (i) $(d(\varepsilon),x(\varepsilon),N(\varepsilon))$ is the buyer's optimal contract given $(\mu,\tau)$;
+(ii) DS-proof constraint $d(\varepsilon) \le R(N(\varepsilon)+1)N(\varepsilon)$; and (iii) the planner's budget
+$\frac{\beta}{\mu}R(\bar N+1) = B(\mu - 1 + \sigma\tau)\!\int\frac{x(\varepsilon)}{1-\tau}\,dF_\varepsilon(\varepsilon)$.
+\begin{enumerate}
+    \item Why does the planner have to take the agents' equilibrium choices as a constraint?
+          Compare this with a Ramsey optimal-tax problem.
+    \item Explain in words why the budget constraint takes this particular form, and where the
+          factor $\frac{\beta}{\mu}$ on the left-hand side comes from.
+    \item Why is the cost of mining represented as $C(\bar N+1)$ and how does Lemma 1 of CK2017
+          allow us to substitute $C(\bar N+1) = \frac{\beta}{\mu}R(\bar N+1)$?
+\end{enumerate}
+
+%--------------------------------------------------------------------
+\item \textbf{Optimal mix of seigniorage and fees.}
+CK2017's Proposition 8 establishes that the optimal design sets $\tau=0$ and $\mu>1$.
+\begin{enumerate}
+    \item Provide an intuitive argument for why financing mining rewards through seigniorage
+          \emph{dominates} financing them through transaction fees. Your argument should
+          mention the incidence of each instrument across buyers with different valuations.
+    \item Why does the planner not want to set $\mu = 1$ (the Friedman rule)?
+          Identify the marginal benefit and the marginal cost of raising $\mu$ above one.
+    \item Why might a private cryptocurrency network (e.g.\ Bitcoin) end up with a positive
+          $\tau$ even though the optimal $\tau$ is zero? Discuss in terms of governance and
+          short-run incentives of miners.
+\end{enumerate}
+
+%--------------------------------------------------------------------
+\item \textbf{Welfare cost: Bitcoin vs.\ cash.}
+The benchmark calibration of CK2017 yields a Bitcoin welfare cost of $1.41\%$ of consumption,
+falling to $0.08\%$ under optimal design. Roughly, an equivalent low-inflation cash system
+generates a welfare cost of only $0.003\%$.
+\begin{enumerate}
+    \item Define carefully the two welfare measures used in Section 5.3: the
+          \emph{consumption-equivalent welfare loss} and the \emph{equivalent inflation tax}.
+    \item Bitcoin's mining cost is calibrated at $\approx \$360$ million per year. Explain
+          in one paragraph why mining cost dominates the welfare comparison.
+    \item Compute (qualitatively) how much of the $1.41\% \to 0.08\%$ welfare improvement under
+          optimal design comes from (i) lowering $\mu$, (ii) setting $\tau=0$, and (iii) reducing
+          confirmation lags. Which is quantitatively the most important?
+    \item Suppose the social planner were forced to keep $\tau$ at Bitcoin's calibrated level
+          (0.0088\%) but could freely choose $\mu$. Sketch how the optimal $\mu$ and welfare cost
+          would change.
+\end{enumerate}
+
+%--------------------------------------------------------------------
+\item \textbf{Scale and the security--volume nexus.}
+A key feature of cryptocurrencies in CK2017 is that mining rewards scale with aggregate
+transaction volume, while double-spending incentives scale with individual transaction size.
+\begin{enumerate}
+    \item Explain why this asymmetry implies that cryptocurrencies become \emph{more efficient}
+          as the user base $B$ grows. Connect your argument to the DS constraint $d < R(N+1)N$
+          and the formula $R = [Z(\mu-1) + D\tau]/(\bar N+1)$.
+    \item Use the asymmetry to predict whether a cryptocurrency is better suited to support a
+          retail system (e.g.\ debit cards) or a large-value system (e.g.\ Fedwire).
+          Reconcile your prediction with CK2017's Table 5.4: welfare loss
+          $0.00052\%$ (retail) vs.\ $0.0060\%$ (large value).
+    \item Using the table, compare CK2017's implied break-even transaction fee for an
+          optimally-designed cryptocurrency with the observed debit-card interchange fee
+          ($\approx 23$ cents per transfer) and the Fedwire fee ($\approx 82$ cents).
+          Which payment system can cryptocurrencies plausibly compete with, and why?
+\end{enumerate}
+
+%--------------------------------------------------------------------
+\item \textbf{Scaling and the finality trade-off.}
+\begin{enumerate}
+    \item Recall from Tutorial 7 that settlement cannot be both immediate and final. How does
+          this trade-off interact with the choice of $\mu$ in the planner's problem?
+          (Hint: higher $\mu$ relaxes the DS constraint and shortens optimal $N$, but raises
+          inflation.)
+    \item CK2017 abstract from technological scalability constraints (block size, network
+          propagation). Explain how a binding scaling cap would alter the welfare comparison
+          between a cryptocurrency and a centralised retail payment system.
+    \item Bitcoin processes $\approx 7$ transactions/second, while Visa sustains $\approx 1{,}700$/second.
+          What design margins (block size, block interval, off-chain settlement) could relax
+          this constraint, and what new trade-offs would they introduce?
+\end{enumerate}
+
+%--------------------------------------------------------------------
+\item \textbf{Policy: central bank digital currencies (CBDC).}
+Several central banks (Bank of Canada, ECB, RBA) are exploring CBDCs.
+\begin{enumerate}
+    \item A CBDC is centrally issued, so the double-spending problem can be solved without PoW
+          mining. Using the framework of CK2017, what does this imply about the welfare cost of
+          a CBDC relative to (i) Bitcoin and (ii) a cash system under the Friedman rule?
+    \item Suppose a central bank wishes to use the inflation tax on a CBDC to finance a public
+          good (say, a payments security infrastructure). Discuss whether the analogue of CK2017's
+          Proposition 8 ($\tau=0$, $\mu>1$) would still hold, and under what assumptions it would
+          fail.
+    \item Some authors (Agarwal--Kimball, Rogoff) argue that digital currency adoption could
+          facilitate negative interest rate policy or curtail tax evasion. How would the
+          CK2017 framework need to be extended to evaluate these arguments?
+\end{enumerate}
+
+\end{enumerate}
+
+\begin{thebibliography}{9}
+\bibitem{chiu2017}
+Chiu, J.\ and T.\ V.\ Koeppl (2017). The Economics of Cryptocurrencies -- Bitcoin and Beyond.
+\textit{Bank of Canada Staff Working Paper / Queen's University}.
+
+\bibitem{lagos2005}
+Lagos, R.\ and R.\ Wright (2005). A Unified Framework for Monetary Theory and Policy Analysis.
+\textit{Journal of Political Economy} 113(3), 463--484.
+
+\bibitem{ron2013}
+Ron, D.\ and A.\ Shamir (2013). Quantitative Analysis of the Full Bitcoin Transaction Graph.
+\textit{Financial Cryptography}.
+\end{thebibliography}
+
+\end{document}

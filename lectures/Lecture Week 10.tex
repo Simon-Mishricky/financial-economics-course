@@ -1,0 +1,246 @@
+\documentclass[aspectratio=169,xcolor=dvipsnames]{beamer}
+
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{xfp}
+\pgfplotsset{compat=1.18}
+\usepackage[authoryear, round]{natbib}
+\usepackage{hyperref}
+\usetikzlibrary{arrows.meta,positioning,decorations.pathreplacing}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    citecolor=blue,
+    urlcolor=blue
+}
+
+\definecolor{darkgreen}{rgb}{0,0.5,0}
+\definecolor{darkblue}{rgb}{0,0,0.55}
+
+\newtheorem{proposition}{Proposition}
+\setbeamertemplate{footline}[frame number]
+\usetheme{Frankfurt}
+\usefonttheme{serif}
+
+\title{ECON8037: Financial Economics}
+\subtitle{\normalsize Week 10 Lecture - Complete Markets}
+\author{Simon Mishricky}
+\institute{Research School of Economics, Australian National University}
+\date{\today}
+
+\begin{document}
+
+\section{General Equilibrium}
+\frame{\titlepage}
+
+\begin{frame}{General Equilibrium}
+    The Arrow-Debreu market structure is an idealised theoretical benchmark, which cannot capture the trading of financial assets such as stocks and bonds in actual economies. In this lecture, we study a market structure with sequential trading of financial assets.
+\end{frame}
+
+\begin{frame}{General Equilibrium}
+    At each date $t \ge 0$, only at the history $s^t$ actually realised, trades occur in a complete set of claims to one-period-ahead state-contingent consumption. A competitive equilibrium of this sequential trading economy attains the same allocation as the competitive equilibrium with all trades at time 0 we described last lecture.
+\end{frame}
+
+\section{Radner Equilibrium}
+
+\begin{frame}{Radner Equilibrium}
+    A key step in constructing a sequential-trading arrangement is to identify a variable to serve as the state in a value function for the consumer at date $t$ and history $s^t$.
+
+    We find this state by taking an equilibrium allocation and price system for the Arrow-Debreu time 0 trading structure and applying a guess-and-verify method.
+\end{frame}
+
+\begin{frame}{Radner Equilibrium}
+    The implies continuation wealth of consumer $i$ at time $t$ after history $s^t$ is obtained by summing up the value of the consumer's holdings of claims to current and future consumption at time $t$ and history $s^t$.
+
+    The differences in a sequential-trading arrangement are that (Arrow) one-period securities are traded period by period, and that consumers retain the ownership to their endowment processes throughout time.
+\end{frame}
+
+\begin{frame}{Radner Equilibrium}
+    From the perspective of a sequential-trading arrangement, the wealth of consumer $i$ at a point in time can be decomposed into \emph{financial wealth} and \emph{non-financial wealth}.
+
+    Financial wealth at time $t$ after $s^t$ is the consumer's beginning-of-period holdings of Arrow securities that are contingent on the current state $s_t$ being realised, while the present value of the consumer's current and future endowment constitutes non-financial wealth.
+
+    Thus, the financial wealth of consumer $i$ at time $t$ after history $s^t$, expressed in terms of the date $t$, history $s^t$ consumption is
+    \[
+        \Gamma^i_t(s^t) = \sum_{\tau=t}^\infty \sum_{s^\tau | s^t} q^t_\tau(s^\tau)[c^i_\tau(s^\tau) - y^i_\tau(s^\tau)]
+    \]
+\end{frame}
+
+\begin{frame}{Radner Equilibrium}
+    Notice that the budget constraint
+    \[
+        \sum_{t=0}^\infty \sum_{s^t} q^0_t(s^t) c^i_t(s^t) \le \sum_{t=0}^\infty \sum_{s^t} q^0_t(s^t) y^i_t(s^t)
+    \]
+    at equality implies that each consumer starts with zero financial wealth at time 0, $\Gamma^i_0(s^0) = 0$ for all $i$.
+
+    At $t > 0$, financial wealth $\Gamma^i_t(s^t)$ typically differs from zero for consumer $i$, but it sums to zero across $i$,
+    \[
+        \sum_{i=1}^I \Gamma^i_t(s^t) = 0
+    \]
+\end{frame}
+
+\begin{frame}{Radner Equilibrium}
+    This follows from the feasibility constraint at equality
+    \[
+        \sum_i c^i_t(s^t) \le \sum_i y^i_t(s^t)
+    \]
+    That is, the Arrow securities that make up financial wealth are in zero net supply --- positive holdings of consumers constitute indebtedness of the other consumers who have issued those securities.
+\end{frame}
+
+\begin{frame}{Radner Equilibrium}
+    We propose to match the time $t$, history $s^t$ wealth of the consumer in the sequential economy with the equilibrium tail wealth $\Gamma^i_t(s^t)$ from the Arrow-Debreu economy.
+
+    In moving to the sequential formulation, we restrict asset trade to prevent Ponzi schemes. We want the weakest possible restrictions. The limits come from the common sense requirement that it has to be feasible for the consumer to repay his state contingent debt in every possible state.
+\end{frame}
+
+\begin{frame}{Radner Equilibrium}
+    Together with our assumption that $c^i_t(s^t)$ must be nonnegative, that feasibility requirement leads to the natural debt limits.
+
+    Let $q^t_\tau(s^\tau)$ be the Arrow-Debreu price, denominated in units of the date $t$, history $s^t$ consumption good. Consider the value of the tail of agent $i$'s endowment sequence at time $t$ in history $s^t$:
+    \[
+        A^i_t(s^t) = \sum_{\tau=t}^\infty \sum_{s^\tau | s^t} q^t_\tau(s^\tau) y^i_\tau(s^\tau)
+    \]
+    We call $A^i_t(s^t)$ the \emph{natural debt limit} at time $t$ and history $s^t$. It is the maximal value that agent $i$ can repay starting from that period, assuming that his consumption is zero always.
+\end{frame}
+
+\begin{frame}{Radner Equilibrium}
+    \textbf{Sequential trading}
+
+    There is a sequence of markets in one-period-ahead state-contingent claims. At each date $t \ge 0$, consumers trade claims to date $t+1$ consumption, whose payment is contingent on the realisation of $s_{t+1}$.
+
+    Let $\bar a^i_t(s^t)$ denote the claims to time $t$ consumption, other than its time $t$ endowment $y^i_t(s^t)$, that consumer $i$ brings into time $t$ in history $s^t$.
+\end{frame}
+
+\begin{frame}{Radner Equilibrium}
+    Suppose that $\tilde Q_t(s_{t+1} | s^t)$ is a \emph{pricing kernel} to be interpreted as follows: $\tilde Q_t(s_{t+1} | s^t)$ is the price of one unit of time $t+1$ consumption, contingent on the realisation $s_{t+1}$ at $t+1$, when the history at $t$ is $s^t$.
+
+    The consumer faces a sequence of budget constraints for $t \ge 0$, where the time $t$, history $s^t$ budget constraint is
+    \[
+        \tilde c^i_t(s^t) + \sum_{s_{t+1}} \tilde a^i_{t+1}(s_{t+1}, s^t) \tilde Q_t(s_{t+1} | s^t) \le y^i_t(s^t) + \tilde a^i_t(s^t)
+    \]
+    At time $t$, a consumer chooses $\tilde c^i_t(s^t)$ and $\{\tilde a^i_{t+1}(s_{t+1}, s^t)\}$, where $\{\tilde a^i_{t+1}(s_{t+1}, s^t)\}$ is a vector of claims on time $t+1$ consumption, there being one element of the vector for each value of the time $t+1$ realisation of $s_{t+1}$.
+\end{frame}
+
+\begin{frame}{Radner Equilibrium}
+    To rule out Ponzi schemes, we impose the state-by-state borrowing constraints
+    \[
+        -\tilde a^i_{t+1}(s^{t+1}) \le A^i_{t+1}(s^{t+1})
+    \]
+    Where $A^i_{t+1}(s^{t+1})$ is the natural debt limit.
+\end{frame}
+
+\begin{frame}{Radner Equilibrium}
+    Let $\eta^i_t(s^t)$ and $\nu^i_t(s^t; s_{t+1})$ be nonnegative Lagrange multipliers on the budget constraints, for time $t$ and history $s^t$. Form the Lagrangian
+    \begin{align*}
+        \mathcal{L}^i &= \sum_{t=0}^\infty \sum_{s^t} \Bigg\{ \beta^t u_i(\tilde c^i_t(s^t)) \pi_t(s^t) \\
+        &\quad + \eta^i_t(s^t)\left[ y^i_t(s^t) + \tilde a^i_t(s^t) - \sum_{s_{t+1}} \tilde a^i_{t+1}(s_{t+1}, s^t) \tilde Q_t(s_{t+1} | s^t)\right] \\
+        &\quad + \sum_{s_{t+1}} \nu^i_t(s^t; s_{t+1})[A^i_{t+1}(s^{t+1}) + \tilde a^i_{t+1}(s^{t+1})]\Bigg\}
+    \end{align*}
+    For a given initial wealth $\tilde a^i_0(s_0)$.
+\end{frame}
+
+\begin{frame}{Radner Equilibrium}
+    First-order conditions for maximising $\mathcal{L}^i$ with respect $\tilde c^i_t(s^t)$ and $\{\tilde a^i_{t+1}(s_{t+1}, s^t)\}_{s_{t+1}}$ are
+    \[
+        \beta^t u'_i(\tilde c^i_t(s^t)) \pi_t(s^t) - \eta^i_t(s^t) = 0
+    \]
+    \[
+        -\eta^i_t(s^t) \tilde Q_t(s_{t+1} | s^t) + \nu^i_t(s^t; s_{t+1}) + \eta_{t+1}(s_{t+1}, s^t) = 0
+    \]
+    For all $s_{t+1}$, $t$, $s^t$.
+\end{frame}
+
+\begin{frame}{Radner Equilibrium}
+    The natural debt limit does not bind and Lagrange multiplier $\nu^i_t(s^t; s_{t+1})$ equals zero for the following reason: if there were any history $s^{t+1}$ leading to a binding natural debt limit, the consumer would from then on have to consumption equal to zero in order to honour its debt. Because the consumer's utility function satisfies the Inada condition
+    \[
+        \lim_{c \to 0} u'_i(c) = \infty
+    \]
+    That would mean that all future marginal utilities would be infinite. Thus, it would be easy to find alternative affordable allocations that yield higher expected utility by postponing earlier consumption to period after such a binding constraint.
+\end{frame}
+
+\begin{frame}{Radner Equilibrium}
+    After setting $\nu^i_t(s^t; s_{t+1}) = 0$, the first order conditions imply the following restrictions on the optimal consumption allocation:
+    \[
+        \tilde Q_t(s_{t+1} | s^t) = \beta \frac{u'_i(\tilde c^i_{t+1}(s^{t+1}))}{u'_i(\tilde c^i_t(s^t))} \pi(s^{t+1} | s^t)
+    \]
+    for all $s_{t+1}$, $t$, $s^t$. You may notice that this is the fundamental asset pricing equation when the payoff is equal to 1.
+
+    \textcolor{darkblue}{\textbf{DEFINITION:}} A \emph{distribution of wealth} is a vector $\mathbf{a}_t(s^t) = \{\tilde a^i_t(s^t)\}_{i=1}^I$ satisfying $\sum_i \tilde a^i_t(s^t) = 0$.
+\end{frame}
+
+\begin{frame}{Radner Equilibrium}
+    \textcolor{darkblue}{\textbf{DEFINITION:}} A \emph{competitive equilibrium with sequential trading of one period Arrow securities} is an initial distribution of wealth $\mathbf{a}_0(s_0)$, a collection of borrowing limits $\{A^i_t(s^t)\}$ satisfying the natural debt limit for all $i$, for all $t$, and for all $s^t$, a feasible allocation $\{\tilde c^i\}_{i=1}^I$ and pricing kernels $\tilde Q_t(s_{t+1} | s^t)$ such that (a) given the pricing kernels and $\tilde a^i_0(s_0)$ and the borrowing limits $\{A^i_t(s^t)\}$ for all $i$, the consumption allocation $\tilde c^i$ and portfolio $\{\tilde a^i_{t+1}(s_{t+1}, s^t)\}$ solves the consumer's problem for all $i$; and (b) for all realisations of $\{s^t\}_{t=0}^\infty$, allocations and portfolios $\{\tilde c^i_t(s^t), \{\tilde a^i_{t+1}(s_{t+1}, s^t)\}\}_i$ satisfy $\sum_i \tilde c^i_t(s^t) = \sum_i y^i_t(s^t)$ and $\sum_i \tilde a^i_{t+1}(s_{t+1}, s^t) = 0$.
+\end{frame}
+
+\section{Equivalence of Allocations}
+
+\begin{frame}{Radner Equilibrium}
+    \textbf{Equivalence of allocations}
+
+    By making an appropriate guess about the form of the pricing kernels, it is easy to show that an Arrow-Debreu Equilibrium with time 0 trading is also an allocation of a Radner Equilibrium with sequential trading of one-period Arrow securities, one with a particular initial distribution of wealth.
+\end{frame}
+
+\begin{frame}{Radner Equilibrium}
+    Take $q^0_t(s^t)$ as given from the Arrow-Debreu equilibrium and suppose that the pricing kernel $\tilde Q_t(s_{t+1} | s^t)$ makes the following recursion true:
+    \[
+        q^0_{t+1}(s^{t+1}) = \tilde Q_t(s_{t+1} | s^t) q^0_t(s^t)
+    \]
+    Which becomes
+    \[
+        \tilde Q_t(s_{t+1} | s^t) = q^t_{t+1}(s^{t+1})
+    \]
+    Recall that $q^t_{t+1}(s^{t+1}) = \frac{q^0_{t+1}(s^{t+1})}{q^0_t(s^t)}$.
+\end{frame}
+
+\begin{frame}{Radner Equilibrium}
+    Let $\{c^i_t(s^t)\}$ be a competitive equilibrium allocation in the Arrow-Debreu economy. If $\tilde Q_t(s_{t+1} | s^t) = q^t_{t+1}(s^{t+1})$ is satisfied, that allocation is also a sequential trading Radner economy. To show this fact, take the consumer's first-order conditions from the Arrow-Debreu economy from two successive periods and divide one by the other to get
+    \[
+        \frac{\beta u'_i[c^i_{t+1}(s^{t+1})] \pi(s^{t+1} | s^t)}{u'_i[c^i_t(s^t)]} = \frac{q^0_{t+1}(s^{t+1})}{q^0_t(s^t)} = \tilde Q_t(s_{t+1} | s^t)
+    \]
+    It remains to choose the initial wealth of the sequential-trading equilibrium so that the sequential-trading competitive equilibrium duplicates the Arrow-Debreu competitive equilibrium allocation.
+\end{frame}
+
+\begin{frame}{Radner Equilibrium}
+    Conjecture that the initial wealth vector $\mathbf{a}_0(s_0)$ of the sequential-trading economy should be chosen to be the zero vector.
+
+    This is a natural conjecture, because it means that each consumer must rely on its own endowment stream to finance consumption, in the same way that consumers are constrained to finance their history-contingent purchases for the infinite future at time 0 in the Arrow-Debreu economy.
+\end{frame}
+
+\begin{frame}{Radner Equilibrium}
+    To prove that the conjecture is correct, we must show that the zero initial wealth vector enables consumer $i$ to finance $\{c^i_t(s^t)\}$ and leaves no room to increase consumption in any period after any history.
+
+    The proof proceeds by guessing that, at time $t \ge 0$ and history $s^t$, consumer $i$ chooses a portfolio given by $\tilde a^i_{t+1}(s_{t+1}, s^t) = \Gamma^i_{t+1}(s^{t+1})$ for all $s_{t+1}$. The value of this portfolio expressed in terms of the date $t$, history $s^t$, consumption good is
+    \begin{align*}
+        \sum_{s_{t+1}} \tilde a^i_{t+1}(s_{t+1}, s^t) \tilde Q_t(s_{t+1} | s^t) &= \sum_{s^{t+1} | s^t} \Gamma^i_{t+1}(s^{t+1}) q^t_{t+1}(s^{t+1}) \\
+        &= \sum_{\tau=t+1}^\infty \sum_{s^\tau | s^t} q^t_\tau(s^\tau) [c^i_\tau(s^\tau) - y^i_\tau(s^\tau)]
+    \end{align*}
+\end{frame}
+
+\begin{frame}{Radner Equilibrium}
+    To demonstrate that consumer $i$ can afford this portfolio strategy, we now use the Radner equilibrium budget constraint to compute the implied consumption plan $\{\tilde c^i_\tau(s^\tau)\}$. First, in the initial period $t = 0$ with $\tilde a^i_0(s_0) = 0$, substitution of the Radner budget constraint into the above budget constraint at equality yields
+    \[
+        \tilde c^i_0(s_0) + \sum_{t=1}^\infty \sum_{s^t} q^0_t(s^t)[c^i_t(s^t) - y^i_y(s^t)] = y^i_0(s_0) + 0
+    \]
+    This expression together with the Arrow-Debreu budget constraint at equality imply $\tilde c^i_0(s_0) = c^i_0(s_0)$. In other words, the proposed portfolio is affordable in period 0 and the associated consumption plan is the same as in the competitive equilibrium of the Arrow-Debreu economy.
+\end{frame}
+
+\begin{frame}{Radner Equilibrium}
+    In all consecutive future periods $t > 0$ and histories $s^t$, we replace $\tilde a^i_t(s^t)$ in constraint
+    \[
+        \tilde c^i_t(s^t) + \sum_{s_{t+1}} \tilde a^i_{t+1}(s_{t+1}, s^t) \tilde Q_t(s_{t+1} | s^t) \le y^i_t(s^t) + \tilde a^i_t(s^t)
+    \]
+    by $\Gamma^i_t(s^t)$, and after noticing that the value of the asset portfolio in
+    \[
+        \sum_{s_{t+1}} \tilde a^i_{t+1}(s_{t+1}, s^t) \tilde Q_t(s_{t+1} | s^t) = \sum_{\tau=t+1}^\infty \sum_{s^\tau | s^t} q^t_\tau(s^\tau) [c^i_\tau(s^\tau) - y^i_\tau(s^\tau)]
+    \]
+    can be written as
+    \[
+        \sum_{s_{t+1}} \tilde a^i_{t+1}(s_{t+1}, s^t) \tilde Q_t(s_{t+1} | s^t) = \Gamma^i_t(s^t) - [c^i_t(s^t) - y^i_t(s^t)]
+    \]
+    it follows immediately that $\tilde c^i_t(s^t) = c^i_t(s^t)$ for all periods and histories.
+\end{frame}
+
+\end{document}

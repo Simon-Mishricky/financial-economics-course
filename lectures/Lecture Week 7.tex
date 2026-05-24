@@ -1,0 +1,446 @@
+\documentclass[aspectratio=169,xcolor=dvipsnames]{beamer}
+
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{xfp}
+\pgfplotsset{compat=1.18}
+\usepackage[authoryear, round]{natbib}
+\usepackage{hyperref}
+\usetikzlibrary{arrows.meta,positioning,decorations.pathreplacing}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    citecolor=blue,
+    urlcolor=blue
+}
+
+\definecolor{darkgreen}{rgb}{0,0.5,0}
+\definecolor{darkblue}{rgb}{0,0,0.55}
+
+\newtheorem{proposition}{Proposition}
+\setbeamertemplate{footline}[frame number]
+\usetheme{Frankfurt}
+\usefonttheme{serif}
+
+% Title info
+\title{ECON8037: Financial Economics}
+\subtitle{\normalsize Week 7 Lecture - The Economics of Cryptocurrencies I: Blockchain, Mining, and Double-Spending (Chiu \& Koeppl, 2017)}
+\author{Simon Mishricky}
+\institute{Research School of Economics, Australian National University}
+\date{\today}
+
+\begin{document}
+\section{Motivation}
+\frame{\titlepage}
+
+\begin{frame}{Why study the economics of cryptocurrencies?}
+    Cryptocurrencies (Bitcoin, Ethereum, $\ldots$) are an attempt to support payments
+    \textbf{without} a trusted third party.
+    \vspace{2mm}
+    \begin{itemize}
+        \item Critics: fraud, bubbles, vehicle for illegal activity.
+        \item Advocates: cryptographically secure decentralised payments.
+        \item Central banks: actively exploring blockchain-based digital currencies.
+    \end{itemize}
+    \vspace{2mm}
+    \citet{chiu2017} ask: \emph{how well can a cryptocurrency serve as a means of payment?}
+    \vspace{2mm}
+    \begin{itemize}
+        \item Build a general equilibrium monetary model with a blockchain;
+        \item discipline it with Bitcoin transactions data;
+        \item compute the welfare cost of using Bitcoin and an optimally designed alternative.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Roadmap for Lecture I}
+    \begin{enumerate}
+        \item Cryptocurrencies in one slide: blockchain, mining, PoW.
+        \item The double-spending problem.
+        \item A partial-equilibrium model of mining and secret mining.
+        \item Lagos--Wright general equilibrium with a cryptocurrency.
+        \item Double-spending-proof equilibrium.
+    \end{enumerate}
+    \vspace{4mm}
+    Lecture II picks up with optimal design, welfare, and applications.
+\end{frame}
+
+\begin{frame}{Three key takeaways}
+    \begin{enumerate}
+        \item A cryptocurrency must overcome \textbf{double spending} by combining \emph{costly mining}
+              (proof-of-work) with \emph{settlement lags} (confirmations).
+        \vspace{2mm}
+        \item This creates a fundamental trade-off: settlement cannot be both
+              \textbf{immediate} and \textbf{final}.
+        \vspace{2mm}
+        \item The model embeds these features in a Lagos--Wright environment so that
+              the value of the currency, mining effort, and double-spending incentives
+              are jointly determined.
+    \end{enumerate}
+\end{frame}
+
+\section{Cryptocurrencies overview}
+
+\begin{frame}{Digital currency vs.\ cryptocurrency}
+    A \textbf{digital token} is a string of bits. Digital strings can be copied costlessly
+    $\Rightarrow$ the \emph{double-spending problem}.
+    \vspace{3mm}
+    \begin{itemize}
+        \item \textbf{Centralised solution (e.g.\ PayPal):} a trusted third party
+        maintains a ledger and updates it as people transact. Users must trust the intermediary.
+        \vspace{2mm}
+        \item \textbf{Decentralised solution (e.g.\ Bitcoin):} a network of anonymous validators
+        maintains and updates copies of the ledger. Trust is replaced by a \emph{consensus protocol}.
+    \end{itemize}
+    \vspace{3mm}
+    The cryptocurrency must induce validators (i) to keep an accurate ledger and (ii) to
+    deter users from double spending.
+\end{frame}
+
+\begin{frame}{Blockchain as a record-keeping device}
+    A \textbf{block} = a set of transactions conducted between users in a period.
+    A \textbf{blockchain} = a chain of blocks recording all past transactions.
+    \vspace{3mm}
+    \begin{itemize}
+        \item Each block is linked to the previous one (dynamically consistent ledger).
+        \item Anyone can verify any user's balance by reading the chain.
+        \item Different from traditional money, which only records the \emph{current}
+              distribution of balances.
+    \end{itemize}
+    \vspace{3mm}
+    Consensus rule: the \textbf{longest chain} is the trusted public record.
+\end{frame}
+
+\begin{frame}{Mining and Proof-of-Work}
+    \textbf{Mining} = competition to update the blockchain with a new block.
+    \vspace{2mm}
+    \begin{itemize}
+        \item A miner who first solves a computationally costly puzzle (\emph{Proof-of-Work, PoW})
+        wins the right to append a new block.
+        \item Winning probability is proportional to the miner's fraction of computational power.
+        \item Winners receive a reward $R$, financed by (i) newly created coins (seigniorage)
+              and (ii) transaction fees.
+    \end{itemize}
+    \vspace{3mm}
+    \textbf{Why is mining costly?} To make rewriting history expensive. Older transactions
+    are more trustworthy because revising them requires re-doing the PoW for every subsequent block.
+\end{frame}
+
+\begin{frame}{The bootstrapping problem}
+    A cryptocurrency must jointly support three things:
+    \vspace{2mm}
+    \begin{itemize}
+        \item \textbf{Security of the blockchain} -- so merchants accept the currency;
+        \item \textbf{Value of the currency} -- so mining rewards are valuable;
+        \item \textbf{Mining activity} -- so double spending is costly.
+    \end{itemize}
+    \vspace{3mm}
+    Each side reinforces the others. The model must determine all three jointly in equilibrium.
+\end{frame}
+
+\section{Double Spending}
+
+\begin{frame}{The double-spending attack: forward looking}
+    Even with a blockchain, a \emph{forward-looking} attack is possible:
+    \vspace{2mm}
+    \begin{enumerate}
+        \item Buyer sends payment $d$ to seller; instruction is broadcast to miners.
+        \item Buyer secretly mines an \emph{alternative} block in which the payment does not occur.
+        \item Once seller delivers the goods, buyer releases the secret chain.
+        \item If the secret chain is longer, the consensus protocol adopts it and the
+              original payment is wiped out.
+    \end{enumerate}
+    \vspace{2mm}
+    Outcome: buyer keeps both the goods and the balances; seller is left empty handed.
+\end{frame}
+
+\begin{frame}{Confirmation lags as a defence}
+    Defence: seller waits for $N$ \emph{confirmations} (i.e.\ $N$ blocks added on top of the
+    block containing the payment) before delivering goods.
+    \vspace{3mm}
+    \begin{itemize}
+        \item To double spend, buyer must mine \textbf{$N+1$ blocks in a row} faster than the
+              rest of the network.
+        \item Longer $N$ $\Rightarrow$ harder to attack, but slower settlement.
+    \end{itemize}
+    \vspace{3mm}
+    Trust = (security of blockchain) $\times$ (mining ecosystem) $\times$ (value of currency).
+\end{frame}
+
+\section{Model setup}
+
+\begin{frame}{Partial equilibrium: one transaction period}
+    Within a single period there are $\bar N+1$ subperiods.
+    Buyer holds real balances $z$; bargains with a seller over $(x,d,N)$:
+    \vspace{2mm}
+    \begin{itemize}
+        \item $x$ = quantity of goods,
+        \item $d\le z$ = payment in real balances,
+        \item $N\in\{0,\ldots,\bar N\}$ = confirmation lag.
+    \end{itemize}
+    \vspace{3mm}
+    Buyer's preferences (with confirmation lag $N$):
+    \[
+        \delta^N u(x),\qquad \delta\in(0,1).
+    \]
+    Across periods agents discount by $\beta = \delta^{\bar N+1}$.
+\end{frame}
+
+\begin{frame}{The mining game}
+    $M$ miners each invest computing power $q(i)$ measured in real balances.
+    A particular miner wins block $n$ with probability
+    \[
+        \rho(i) \;=\; \frac{q(i)}{\sum_{m=1}^M q(m)}. \tag{3}
+    \]
+    Each subperiod, each miner solves
+    \[
+        \max_{q(i)} \;\; \rho_i\,\beta R - q(i). \tag{4}
+    \]
+    Symmetric Nash equilibrium $q(m)=Q$ for all $m$:
+    \[
+        Q \;=\; \frac{M-1}{M^2}\beta R. \tag{6}
+    \]
+\end{frame}
+
+\begin{frame}{Free entry of miners}
+    Total computing cost per subperiod:
+    \[
+        MQ \;=\; \frac{M-1}{M}\beta R. \tag{7}
+    \]
+    Take $M\to\infty$ (competitive mining):
+    \vspace{2mm}
+    \begin{lemma}[Rent dissipation]
+        As $M\to\infty$, miners earn zero profits and aggregate computing power dissipates all rewards:
+        \[
+            MQ \;=\; \beta R.
+        \]
+    \end{lemma}
+    \vspace{2mm}
+    Mining is a pure rent-seeking activity: every dollar of reward is matched by a dollar of cost.
+\end{frame}
+
+\begin{frame}{Secret mining and double-spending payoffs}
+    To double spend successfully, the buyer must win the mining game in $N+1$ consecutive subperiods.
+    Conditional on $N$ prior successes, his subperiod-$N$ payoff from investing $q_N$ is
+    \[
+        \rho(q_N)\,\beta[d + (N+1)R] - q_N. \tag{9}
+    \]
+    Define
+    \[
+        \Delta \;\equiv\; \frac{d}{R} + (N+1). \tag{11}
+    \]
+    As $M\to\infty$:
+    \[
+        \hat q_N(d,N) = \beta R\bigl[\sqrt{\Delta} - 1\bigr], \qquad
+        \rho(\hat q_N) = \frac{\sqrt{\Delta}-1}{\sqrt{\Delta}}. \tag{12,13}
+    \]
+\end{frame}
+
+\begin{frame}{Backward induction}
+    Define recursively the expected double-spending payoff in subperiod $n$:
+    \[
+        D_n(d,N) \;=\; \max_{q_n} \rho(q_n)\, D_{n+1}(d,N) - q_n, \qquad
+        D_N(d,N) = \beta R(\sqrt\Delta-1)^2.
+    \]
+    \begin{lemma}[Closed form]
+        For $s=0,\ldots,N$,
+        \[
+            D_{N-s}(d,N) = \beta R[\sqrt\Delta - (s+1)]^2,\quad
+            \hat q_{N-s} = \beta R[\sqrt\Delta - (s+1)].
+        \]
+    \end{lemma}
+    \vspace{2mm}
+    Investment is increasing in $n$: if it's optimal to engage in secret mining today,
+    it's optimal to continue tomorrow conditional on success.
+\end{frame}
+
+\begin{frame}{The no-double-spending (DS) constraint}
+    Double spending is unattractive whenever
+    \[
+        \beta R\bigl[\sqrt\Delta - (N+1)\bigr] < 0,
+    \]
+    so $\hat q_0=0$ and $D_0=0$. This yields the central inequality.
+    \vspace{3mm}
+    \begin{proposition}[DS-proof contract]
+        As $M\to\infty$, a contract $(d,N)$ is double-spending proof iff
+        \[
+            \boxed{\;d \;<\; R\,(N+1)\,N.\;} \tag{20}
+        \]
+    \end{proposition}
+    \vspace{2mm}
+    Intuition:
+    \begin{itemize}
+        \item Larger payment $d$ $\Rightarrow$ stronger incentive to attack.
+        \item Larger reward $R$ or longer lag $N$ $\Rightarrow$ harder to attack.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Probability of successful double spending}
+    More generally, whenever (20) fails, the unconditional probability of a successful attack is
+    \[
+        P(d,N) \;=\; \frac{\sqrt\Delta - (N+1)}{\sqrt\Delta},\qquad \Delta = \frac{d}{R} + (N+1).
+    \]
+    \vspace{2mm}
+    \textbf{Settlement concepts.}
+    \begin{itemize}
+        \item Settlement is \emph{immediate} if $N=0$, \emph{delayed} if $N>0$;
+        \item Settlement is \emph{final} if $P(d,N)=0$, \emph{probabilistic} if $P>0$.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Fundamental impossibility}
+    \begin{theorem}[Chiu--Koeppl]
+        For any cryptocurrency based on a PoW protocol, settlement cannot be both
+        \emph{immediate} and \emph{final}.
+    \end{theorem}
+    \vspace{3mm}
+    Why? At $N=0$ the DS constraint $d<R(N+1)N$ fails for any $d>0$.
+    Final settlement requires $N\ge 1$.
+    \vspace{3mm}
+    This is a built-in cost of decentralised consensus: trust must be earned by waiting.
+\end{frame}
+
+\section{General equilibrium}
+
+\begin{frame}{Embedding the model in Lagos--Wright}
+    \citet{chiu2017} embed the partial equilibrium model in a standard
+    Lagos--Wright (2005) environment.
+    \vspace{2mm}
+    \begin{itemize}
+        \item Time $t=0,1,\ldots$; continuum of buyers $B$, sellers $S=B\sigma$, $\sigma\in(0,1)$.
+        \item Each period: \textbf{day market} (centralised, general good $h$) then
+              \textbf{night market} ($\bar N+1$ subperiods).
+        \item In the first subperiod, buyers match with sellers w.p.\ $\sigma$.
+        \item Buyer's preference shock $\varepsilon\sim F_\varepsilon$ at start of period.
+        \item Utility from night-market consumption: $\delta^N \varepsilon\, u(x)$.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Cryptocurrency in general equilibrium}
+    The cryptocurrency $m$ is a digital record of balances.
+    \vspace{2mm}
+    \begin{itemize}
+        \item Day market: perfect monitoring, no double spending.
+        \item Night market: anonymous; cryptocurrency is the only means of payment.
+        \item PoW protocol updates the chain each subperiod.
+    \end{itemize}
+    \vspace{2mm}
+    The mining reward is endogenous and pinned down by design parameters:
+    \[
+        R \;=\; \frac{Z(\mu - 1) + D\tau}{\bar N+1}, \tag{23}
+    \]
+    where $\mu\ge 1$ is the gross money growth rate, $\tau\ge 0$ the transaction fee,
+    $Z=BE(z)$ aggregate balances, $D=B\sigma E(d)$ aggregate transfers.
+\end{frame}
+
+\begin{frame}{Day market value function}
+    Let $z=\phi m$ be real balances. The day-market problem of a buyer is
+    \[
+        w(z) \;=\; \max_{z',h} -h + v(z',\varepsilon)\quad
+        \text{s.t.}\quad z+h \ge z' \ge 0. \tag{24,25}
+    \]
+    Linearity of utility in $h$ implies
+    \[
+        w(z) \;=\; z + w(0),\qquad
+        \mathbb{E}[w(z,\varepsilon)] = z + W. \tag{27,28}
+    \]
+    Standard Lagos--Wright result: balances enter linearly into the value function.
+\end{frame}
+
+\begin{frame}{Night market and buyer's problem}
+    A matched buyer holding balances $z$ makes a TIOLI offer $(x,d,N)$ to the seller.
+    Buyer's night-market value:
+    \[
+        v(z;\varepsilon) = \frac{\beta}{\mu}z + \sigma[\delta^N\varepsilon u(x) + D_0(d,N) - \tfrac{\beta}{\mu}d] + \beta W. \tag{29}
+    \]
+    Seller's value:
+    \[
+        v(z;0) = \tfrac{\beta}{\mu}d(1-\tau)(1-P(d,N)) - x + \tfrac{\beta}{\mu}z + \beta W. \tag{30}
+    \]
+    \vspace{1mm}
+    Cash-in-advance: with $\mu\ge 1 > \beta$, sellers carry no balances and buyers carry exactly $z'=d$.
+\end{frame}
+
+\begin{frame}{Buyer's optimal contract}
+    Buyer solves
+    \[
+        \max_{(x,d,N)} \;-d + (1-\sigma)\frac{\beta}{\mu}d + \sigma\bigl[\delta^N\varepsilon u(x) + D_0(d,N)\bigr]
+    \]
+    subject to the seller's participation constraint:
+    \[
+        x \;=\; \frac{\beta}{\mu}d\,(1-\tau)\,(1-P(d,N)). \tag{33}
+    \]
+    \vspace{3mm}
+    Two possible regimes:
+    \begin{itemize}
+        \item DS-proof: $d\le R(N+1)N$, so $P=D_0=0$.
+        \item DS-attack: $P>0$, $D_0>0$ -- attractive only when balances are very costly to carry.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{DS-proof equilibrium}
+    Aggregate transfers and money demand:
+    \[
+        D = B\sigma\!\int_0^\infty z^*(\varepsilon;R)\,dF_\varepsilon(\varepsilon),\quad
+        Z = B\!\int_0^\infty z^*(\varepsilon;R)\,dF_\varepsilon(\varepsilon). \tag{35,36}
+    \]
+    \vspace{2mm}
+    \begin{definition}[DS-proof cryptocurrency equilibrium]
+        Given $(\mu,\tau)$: offers $(x(\varepsilon),d(\varepsilon),N(\varepsilon))$, money demand $z(\varepsilon)>0$ and mining choice $q$ such that
+        \begin{enumerate}
+            \item the buyer's contract maximises utility;
+            \item mining is a Nash equilibrium in every subperiod;
+            \item the contract satisfies $d \le R(N+1)N$;
+            \item the day market for balances clears.
+        \end{enumerate}
+    \end{definition}
+\end{frame}
+
+\begin{frame}{Existence}
+    \begin{proposition}[Existence]
+        If $B$ is sufficiently high, a DS-proof cryptocurrency equilibrium exists.
+    \end{proposition}
+    \vspace{3mm}
+    The key insight:
+    \begin{itemize}
+        \item Mining reward $R$ is financed by \textbf{aggregate} transactions
+              (scales with $B$).
+        \item Incentive to double spend depends only on \textbf{individual} transaction
+              size $d$.
+        \item So large $B$ $\Rightarrow$ large $R$ $\Rightarrow$ DS constraint $d<R(N+1)N$
+              is easy to satisfy.
+    \end{itemize}
+    \vspace{3mm}
+    Cryptocurrencies are essentially \emph{scale-dependent}: they work better when the
+    user base is large.
+\end{frame}
+
+\begin{frame}{Summary of Lecture I}
+    \begin{enumerate}
+        \item Cryptocurrency = digital token + blockchain + PoW + consensus rule.
+        \item Double-spending attacks deterred by (i) costly mining and (ii) confirmation lags.
+        \item Closed-form attack technology gives a tractable DS constraint $d < R(N+1)N$.
+        \item Free-entry of miners $\Rightarrow$ all rewards dissipated as mining cost ($MQ=\beta R$).
+        \item Lagos--Wright embedding determines $R$ jointly with the value of the currency
+              and individual contracts.
+        \item Settlement is never simultaneously immediate \emph{and} final.
+    \end{enumerate}
+    \vspace{4mm}
+    Next lecture: optimal design ($\mu,\tau$), calibration to Bitcoin, welfare, applications.
+\end{frame}
+
+\begin{frame}[allowframebreaks]{References}
+    \small
+    \begin{thebibliography}{99}
+        \bibitem[Chiu and Koeppl(2017)]{chiu2017}
+            Chiu, J.\ and T.\ V.\ Koeppl (2017). The Economics of Cryptocurrencies --
+            Bitcoin and Beyond. \textit{Bank of Canada Staff Working Paper / Queen's University}.
+        \bibitem[Lagos and Wright(2005)]{lagos2005}
+            Lagos, R.\ and R.\ Wright (2005). A Unified Framework for Monetary Theory
+            and Policy Analysis. \textit{Journal of Political Economy} 113(3), 463--484.
+    \end{thebibliography}
+\end{frame}
+
+\end{document}

@@ -1,0 +1,349 @@
+\documentclass[aspectratio=169,xcolor=dvipsnames]{beamer}
+
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{xfp}
+\pgfplotsset{compat=1.18}
+\usepackage[authoryear, round]{natbib}
+\usepackage{hyperref}
+\usetikzlibrary{arrows.meta,positioning,decorations.pathreplacing}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    citecolor=blue,
+    urlcolor=blue
+}
+
+\definecolor{darkgreen}{rgb}{0,0.5,0}
+\definecolor{darkblue}{rgb}{0,0,0.55}
+
+\newtheorem{proposition}{Proposition}
+\setbeamertemplate{footline}[frame number]
+\usetheme{Frankfurt}
+\usefonttheme{serif}
+
+\title{ECON8037: Financial Economics}
+\subtitle{\normalsize Week 2 Lecture - Introduction to Financial Economics}
+\author{Simon Mishricky}
+\institute{Research School of Economics, Australian National University}
+\date{\today}
+
+\begin{document}
+
+\section{Information Efficiency}
+\frame{\titlepage}
+
+\begin{frame}{Information Efficiency}
+    In this lecture material we will look at the effect that information has on asset prices.
+
+    When we discuss informational efficiency, we are asking how much information related to an asset's value is incorporated in the price of that asset. This idea is summarised in \textcolor{blue}{Fama (1970)}.
+
+    The degree of efficiency in some sense determines which assets to hold. For example, if asset markets are perfectly informationally efficient then an investor can do no better than to hold the market portfolio, which has the highest return relative to its volatility.
+\end{frame}
+
+\begin{frame}{Information Efficiency}
+    There are three notions of informational efficiency, these are different variations of what is known as the \textcolor{blue}{Efficient Markets Hypothesis (EMH)}
+    \begin{enumerate}
+        \item \textcolor{blue}{Strong form} - all information in a market, whether public or private, is accounted for in an asset's price
+        \item \textcolor{blue}{Semi-strong form} - all public (but not non-public) information is calculated in an asset's current share price
+        \item \textcolor{blue}{Weak form} - all past prices of an asset are reflected in the current asset price
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}{Three Puzzles}
+    If asset markets are perfectly efficient in the sense of \textcolor{blue}{Fama (1970)}, then three puzzles emerge (the ones in blue will be investigated this lecture, the one in red will be looked at in future lectures)
+    \begin{enumerate}
+        \item \textcolor{blue}{First, no one has an incentive to collect information in an efficient market, so how does the market become efficient?} -- This is commonly referred to as the Grossman and Stiglitz (1980) paradox
+        \item \textcolor{blue}{Second, if asset markets are efficient, then positive fees to active managers implies an inefficient market for asset management} -- G\^arleanu and Pedersen (2018)
+        \item \textcolor{red}{Third, why do asset prices still move in the absence of new publicly available information?}
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}{Empirical Regularities}
+    There exists a large literature on the performance of asset managers
+    \begin{itemize}
+        \item The `old consensus' was that the average asset manager has no skill (\textcolor{blue}{Fama (1970)} and \textcolor{blue}{Carhart (1997)}) -- no superior risk adjusted returns
+        \item A `new consensus' has emerged that the average hides significant cross-sectional variation in manager skill (\textcolor{blue}{Grinblatt and Titman (1989)} and \textcolor{blue}{Kosowski et al. (2007)})
+        \begin{itemize}
+            \item ``a sizeable minority of managers pick stocks well enough to more than cover their costs''
+        \end{itemize}
+        \item Another empirical observation is that search costs have diminished over time as information technology has improved and as a result markets have become more efficient as per \textcolor{blue}{Wurgler (2000)} and \textcolor{blue}{Bai et al. (2016)}
+        \begin{itemize}
+            \item And this is linked to the amount of assets managed by professional investors (\textcolor{blue}{R\"osch et al. (2015)})
+        \end{itemize}
+    \end{itemize}
+    We will look at a model by \textcolor{blue}{G\^arleanu and Pedersen (2018)} now that can account for the first two puzzles and these empirical regularities.
+\end{frame}
+
+\section{G\^arleanu and Pedersen Model}
+
+\begin{frame}{G\^arleanu and Pedersen}
+    Consider a setting where searching investors trade directly or through asset managers, asset managers trade on behalf of groups of investors, noise allocators make random allocations to asset managers, and noise traders make random trades in financial markets.
+
+    The economy has $\bar A$ searching investors (``allocators''), each of whom can
+    \begin{enumerate}
+        \item Invest directly in asset markets after having acquired a signal $s$ at cost $k$
+        \item Invest directly in asset markets without the signal, or
+        \item Invest through an asset manager
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}{G\^arleanu and Pedersen}
+    Due to economies of scale, a natural equilibrium outcome is that investors do not acquire the signal, but rather invest as uninformed or through a manager. We therefore rule out that investors acquire the signal. Consequently, we focus on
+    \begin{enumerate}
+        \item The number $A$ of investors who make informed investments through a manager
+        \item Therefore the number of uninformed investors is $\bar A - A$
+    \end{enumerate}
+    The economy has $\bar M$ risk-neutral asset management firms. Of these
+    \begin{enumerate}
+        \item Only $M$ elect to pay $k$ to acquire the signal $s$ and therefore become informed asset managers
+        \item The remaining $\bar M - M$ managers seek to collect asset management fees and invest without information
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}{G\^arleanu and Pedersen}
+    To invest with an informed asset manager, investors must search for and vet managers, which is costly. Specifically, the cost of finding an informed manager and confirming that they have the signal is given by the general continuous function $c(M, A)$, which obviously depends on the number of informed asset managers $M$ and the number of their investors $A$.
+\end{frame}
+
+\begin{frame}{G\^arleanu and Pedersen}
+    We assume that all investors have constant absolute risk aversion (CARA) utility over end-of-period consumption with risk-aversion parameter $\gamma$. For convenience, we express the utility as certainty-equivalent wealth --- hence, with end-date wealth $\tilde W$, an investor's utility is
+    \[
+        -\frac{1}{\gamma} \ln\left(\mathbb{E}\left[e^{-\gamma \tilde W}\right]\right)
+    \]
+    Each investor is endowed with initial wealth $W$.
+\end{frame}
+
+\begin{frame}{G\^arleanu and Pedersen}
+    When an investor finds an asset manager and confirms that the manager has the technology to obtain the signal, they negotiate the asset management fee $f$. The fee is set through \textcolor{blue}{Nash bargaining} and, at this bargaining stage, both the manager's information acquisition cost and the investor's search cost are sunk.
+\end{frame}
+
+\begin{frame}{G\^arleanu and Pedersen}
+    Finally, the economy features a group of ``noise traders'' and a group of ``noise allocators''.
+
+    Noise traders create uncertainty about the supply of shares and are used in the literature to capture the fact that it can be difficult to infer fundamentals from prices.
+
+    We also have the concept of ``noise allocators'' of total mass $N \ge 0$, who allocate their funds across randomly chosen asset managers. Noise allocators play a similar role in the market for asset management to the one that noise traders play in the market for assets. Noise allocators can make it difficult for searching investors to determine whether a manager is informed by looking at whether they have other investors. Further, the existence of noise allocators changes the performance characteristics across managers and investors.
+\end{frame}
+
+\begin{frame}{G\^arleanu and Pedersen}
+    There exists a risk-free asset normalised to deliver a zero net return, and a risky asset with payoff $v$ distributed normally with mean $\bar v$ and standard deviation $\sigma_v$. Agents can obtain a signal $s$ of the payoff, where
+    \[
+        s = v + \varepsilon
+    \]
+    The noise $\varepsilon$ has mean zero and standard deviation $\sigma_\varepsilon$, is independent of $v$, and is normally distributed.
+\end{frame}
+
+\begin{frame}{G\^arleanu and Pedersen}
+    The risky asset is available in stochastic supply given by $q$, which is jointly normally distributed with, and independent of, the other exogenous random variables. The mean supply is $\bar q$ and the standard deviation of the supply is $\sigma_q$.
+
+    We think of the noisy supply as the number of shares outstanding $\bar q$ plus the supply $q - \bar q$ from the noise traders.
+\end{frame}
+
+\begin{frame}{G\^arleanu and Pedersen}
+    Given this asset market, uninformed investors buy a number of shares $x_u$ as a function of the observed price $p$ to maximise their utility $u_u$ (certainty-equivalent wealth), taking into account the fact that the price $p$ may reflect information about the value
+    \[
+        u_u(W) = -\frac{1}{\gamma} \ln \left( \mathbb{E}\left[\max_{x_u} \mathbb{E}\left[e^{-\gamma(W + x_u(v - p))} \big| p\right]\right]\right) = W + u_u(0) \equiv W + u_u
+    \]
+    We can see here how CARA makes the investors decision independent of wealth. Wealth level simply shifts the utility function without affecting their behaviour.
+\end{frame}
+
+\begin{frame}{G\^arleanu and Pedersen}
+    Asset managers observe the signal and invest in the best interest of their investors. This informed investing gives rise to the gross utility $u_i$ of a active investor. Note that the expectation is now dependent on both the price and the signal
+    \[
+        u_i(W) = -\frac{1}{\gamma} \ln \left( \mathbb{E}\left[\max_{x_i} \mathbb{E}\left[e^{-\gamma(W + x_i(v - p))} \big| p, s\right]\right]\right) = W + u_i(0) \equiv W + u_i
+    \]
+    Note that all investors with an informed manager want the same portfolio $x_i$ since investors are homogeneous. Hence, we simply assume that the manager offers the portfolio $x_i$ for anyone investing $W$.
+\end{frame}
+
+\begin{frame}{G\^arleanu and Pedersen}
+    First, we consider the (partial) equilibrium in the asset market given the numbers of informed and uninformed investors. We denote the mass of informed investors by $I$ and note that it is the sum of the number $A$ of rational investors who decide to search for a manager and the number of noise allocators who happen to find an informed manager, where the latter is the total number $N$ of noise allocators times the fraction $M/\bar M$ of informed managers
+    \[
+        I = A + N \frac{M}{\bar M}
+    \]
+    Clearly, the remaining investors, $\bar A + N - I$, invest as uninformed, either directly or via an uninformed manager.
+\end{frame}
+
+\begin{frame}{G\^arleanu and Pedersen}
+    An \emph{asset-market equilibrium} is an asset price $p$ such that the asset market clears:
+    \[
+        q = I x_i + (\bar A + N - I) x_u
+    \]
+    Where $x_i$ is the demand that maximises the utility of informed investors given $p$ and the signal $s$, and $x_u$ is the demand of uninformed investors. The market-clearing condition equates the noisy supply $q$ with the total demand from all informed and uninformed investors.
+\end{frame}
+
+\begin{frame}{G\^arleanu and Pedersen}
+    Now, we define a \emph{general equilibrium for assets and asset management} as a number of informed asset managers $M$, a number of active investors $A$, an asset price $p$, and asset management fees $f$ such that
+    \begin{enumerate}
+        \item No manager would like to change their decision of whether to acquire information
+        \item No investor would like to switch status from active (with an associated utility of $W + u_i - c - f$) to uninformed (conferring utility $W + u_u$) or vice-versa
+        \item The price is an asset-market equilibrium
+        \item The asset management fees are the outcome of Nash bargaining
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}{G\^arleanu and Pedersen}
+    In a linear equilibrium, an informed agent's demand for is a linear function of prices and signals, and the price is a linear function of the signal and the noisy supply
+    \[
+        p = \theta_0 + \theta_s ((s - \bar v) - \theta_q (q - \bar q))
+    \]
+    Where the coefficients $\theta_0$, $\theta_s$ and $\theta_q$ are derived in equilibrium. The key property of the price is its \emph{efficiency} (or informativeness) defined as $\frac{\mathrm{var}(v|s)}{\mathrm{var}(v|p)}$. For convenience, we concentrate on the quantity
+    \[
+        \eta \equiv \ln \left( \frac{\sigma_{v|p}}{\sigma_{v|s}}\right) = \frac{1}{2} \ln \left( \frac{\mathrm{var}(v|s)}{\mathrm{var}(v|p)}\right)
+    \]
+    Which represents the price \emph{inefficiency}. This quantity records the amount of uncertainty about the asset value for someone who only knows the price $p$, relative to the uncertainty remaining when one knows the signal $s$.
+\end{frame}
+
+\begin{frame}{G\^arleanu and Pedersen}
+    The price inefficiency is linked to investors' value of information. Indeed, $\eta$ gives the relative utility of investing based on the manager's information ($u_i$) versus investing as uninformed ($u_u$)
+    \[
+        \gamma (u_i - u_u) = \eta
+    \]
+    The inefficiency $\eta$ can be written as an explicit function of the number of informed investors $I$:
+    \[
+        \eta = -\frac{1}{2} \ln \left( 1 - \frac{\sigma_q^2 \sigma_\varepsilon^2}{I^2/\gamma^2 + \sigma_q^2 \sigma_\varepsilon^2} \frac{\sigma_v^2}{\sigma_v^2 + \sigma_\varepsilon^2}\right) \in (0, \infty)
+    \]
+    We can see the $\eta$ is decreasing in $I$, which is natural since, when there are more informed investors, asset prices become less inefficient (lower $\eta$), implying that informed and uninformed investors receive more similar utilities (lower $u_i - u_u$).
+\end{frame}
+
+\begin{frame}{G\^arleanu and Pedersen}
+    Now we derive the equilibrium asset management fee. The asset management fee is set through Nash bargaining between an investor and a manager. The bargaining outcome depends on each agent's utility in the events of agreement and no agreement.
+
+    The investor's utility when agreeing on a fee $f$ is $W - c - f + u_i$. If no agreement is reached, the investor's outside option is to invest as uninformed with his remaining wealth, yielding a utility of $W - c + u_u$. Hence the investor's surplus from agreement is given by
+    \[
+        S_i = (W - c - f + u_i) - (W - c + u_u) = u_i - u_u - f
+    \]
+    Similarly, the asset manager's gain from agreement is the fee $f$. This is true because the manager's information cost $k$ is sunk and there is no marginal cost to taking on the investor. Therefore the asset manager's surplus is given by
+    \[
+        S_{am} = f
+    \]
+\end{frame}
+
+\begin{frame}{G\^arleanu and Pedersen}
+    The bargaining outcome maximises the product of the utility gains from agreement, i.e.
+    \[
+        \max_f S_i S_{am}
+    \]
+    Which becomes
+    \[
+        \max_f [u_i - u_u - f] f
+    \]
+    The solution is the equilibrium asset management fee $f$ given by
+    \[
+        f = \frac{\eta}{2\gamma}
+    \]
+    This equilibrium is simple and intuitive: The fee would naturally have to be zero if asset markets were perfectly efficient, so that no benefit of information existed ($\eta = 0$) and increases in the size of the market inefficiency.
+
+    \textcolor{blue}{Active asset management fees can be viewed as evidence that investors believe that security markets are less than fully efficient.}
+\end{frame}
+
+\begin{frame}{G\^arleanu and Pedersen}
+    We next derive investor's and managers' decisions. An investor optimally decides to look for an informed manager as long as
+    \[
+        u_i - c - f \ge u_u
+    \]
+    Recalling the equality $\eta = \gamma (u_i - u_u)$, the investor's optimality condition can be written as
+    \[
+        \eta \ge \gamma (c + f)
+    \]
+    This relation must hold with equality in an ``interior'' equilibrium (i.e. an equilibrium in which strictly positive amounts of investors decide to invest as uninformed and through asset managers --- as opposed to all investors making the same decision.
+
+    Inserting the equilibrium asset management fee, we get
+    \[
+        c = \frac{\eta}{2 \gamma}
+    \]
+\end{frame}
+
+\begin{frame}{G\^arleanu and Pedersen}
+    Similarly, we can see that an investor would prefer using an asset manager to acquiring the signal singlehandedly provided that
+    \[
+        k \ge c + f
+    \]
+    Using the equilibrium asset management fee, the condition that asset management is preferred to buying the signal can be written as
+    \[
+        k \ge 2c
+    \]
+    In other words, finding an asset manager should cost at most half as much as being one, which seems to be a condition that is clearly satisfied in the real world. We can also write equivalently
+    \[
+        A \ge 2M
+    \]
+    That is, there must be at least two searching investors for every manager, which is also a realistic implication.
+\end{frame}
+
+\begin{frame}{G\^arleanu and Pedersen}
+    A prospective informed asset manager must pay the cost $k$ to acquire information. On the other hand, by becoming informed, the manager can expect to have more investors. Specifically, each manager receives a noisy number of investors, but, since managers are risk neutral, they optimise the expected fee revenue net of information costs.
+\end{frame}
+
+\begin{frame}{G\^arleanu and Pedersen}
+    An uninformed manager expects $N/\bar M$ investors, that is, the number of noise allocators divided by the total number of managers. An informed manager expects $A/M + N/\bar M$ investors since they expect a fraction of the searching investors in addition to the noise allocators. Therefore, they choose to become informed provided that the expected extra fee revenue covers the cost of information:
+    \[
+        f \frac{A}{M} \ge k
+    \]
+    This manager condition must hold with equality for an interior equilibrium, and we can easily insert the equilibrium fee to get
+    \[
+        M = \frac{\eta A}{2 \gamma k}
+    \]
+\end{frame}
+
+\begin{frame}{G\^arleanu and Pedersen}
+    \textbf{General Equilibrium for Assets and Asset Management}
+
+    We focus on interior equilibria, we have arrived at the following two indifference conditions:
+    \[
+        \frac{\eta(I)}{2 \gamma} = c(M, A) \quad \text{[investors' indifference condition]}
+    \]
+    \[
+        \frac{\eta(I)}{2 \gamma} = \frac{M}{A} k \quad \text{[asset managers' indifference condition]}
+    \]
+    Where $\eta$ is a function of $I = A + N \frac{M}{\bar M}$ which is given explicitly. Hence, solving the general equilibrium comes down to solving these two explicit equations in two unknowns $(M, A)$.
+\end{frame}
+
+\begin{frame}{G\^arleanu and Pedersen}
+    \begin{proposition}
+        In a general equilibrium for assets and asset management:
+        \begin{enumerate}
+            \item Informed asset managers outperform uninformed investing before and after fees, $u_i - f > u_u$. Uninformed asset managers underperform after fees
+            \item Searching investors' outperformance net of fees just compensates their search costs in an interior equilibrium, $u_i - f - c = u_u$. Larger equilibrium search frictions imply higher net outperformance for informed managers
+            \item The asset-weighted average manager (or, equivalently, the asset-weighted average investor) outperforms after fees if and only if the number $N$ of noise allocators is small relative to the number $A$ of searching investors, $A \ge N\left(1 - 2\frac{M}{\bar M}\right)$
+        \end{enumerate}
+    \end{proposition}
+\end{frame}
+
+\section{Summary}
+
+\begin{frame}{Summary}
+    This lecture discusses how information affects asset prices.
+    \begin{itemize}
+        \item The idea of a perfectly efficient market results in three puzzles that cannot be explained by the theory of efficient asset markets.
+        \item The evidence also implies that efficient markets may not exist in reality.
+        \item We can account for two of these puzzles and the empirical regularities by incorporating search frictions to the information gathering process as in \textcolor{blue}{G\^arleanu and Pedersen (2018)}.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[allowframebreaks]{References}
+    \small
+    \begin{thebibliography}{99}
+        \bibitem[Bai et al.(2016)]{bai2016}
+            Bai, J., T.\ Philippon, and A.\ Savov (2016). Have financial markets become more informative? \textit{Journal of Financial Economics}, 122(3):625--654.
+        \bibitem[Carhart(1997)]{carhart1997}
+            Carhart, M.\ M.\ (1997). On persistence in mutual fund performance. \textit{The Journal of Finance}, 52(1):57--82.
+        \bibitem[Fama(1970)]{fama1970}
+            Fama, E.\ F.\ (1970). Efficient capital markets: A review of theory and empirical work. \textit{The Journal of Finance}, 25(2):383--417.
+        \bibitem[G\^arleanu and Pedersen(2018)]{garleanu2018}
+            G\^arleanu, N.\ and L.\ H.\ Pedersen (2018). Efficiently inefficient markets for assets and asset management. \textit{The Journal of Finance}, 73(4):1663--1712.
+        \bibitem[Grinblatt and Titman(1989)]{grinblatt1989}
+            Grinblatt, M.\ and S.\ Titman (1989). Mutual fund performance: An analysis of quarterly portfolio holdings. \textit{Journal of Business}, pages 393--416.
+        \bibitem[Grossman and Stiglitz(1980)]{grossman1980}
+            Grossman, S.\ J.\ and J.\ E.\ Stiglitz (1980). On the impossibility of informationally efficient markets. \textit{The American Economic Review}, 70(3):393--408.
+        \bibitem[Kosowski et al.(2007)]{kosowski2007}
+            Kosowski, R., N.\ Y.\ Naik, and M.\ Teo (2007). Do hedge funds deliver alpha? a bayesian and bootstrap analysis. \textit{Journal of Financial Economics}, 84(1):229--264.
+        \bibitem[R\"osch et al.(2015)]{rosch2015}
+            R\"osch, D.\ M., A.\ Subrahmanyam, and M.\ A.\ van Dijk (2015). An empirical analysis of co-movement in market efficiency measures. Technical report, Working paper.
+        \bibitem[Wurgler(2000)]{wurgler2000}
+            Wurgler, J.\ (2000). Financial markets and the allocation of capital. \textit{Journal of Financial Economics}, 58(1-2):187--214.
+    \end{thebibliography}
+\end{frame}
+
+\end{document}

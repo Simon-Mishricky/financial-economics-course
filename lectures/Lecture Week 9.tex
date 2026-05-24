@@ -1,0 +1,303 @@
+\documentclass[aspectratio=169,xcolor=dvipsnames]{beamer}
+
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{xfp}
+\pgfplotsset{compat=1.18}
+\usepackage[authoryear, round]{natbib}
+\usepackage{hyperref}
+\usetikzlibrary{arrows.meta,positioning,decorations.pathreplacing}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    citecolor=blue,
+    urlcolor=blue
+}
+
+\definecolor{darkgreen}{rgb}{0,0.5,0}
+\definecolor{darkblue}{rgb}{0,0,0.55}
+
+\newtheorem{proposition}{Proposition}
+\setbeamertemplate{footline}[frame number]
+\usetheme{Frankfurt}
+\usefonttheme{serif}
+
+\title{ECON8037: Financial Economics}
+\subtitle{\normalsize Week 9 Lecture - Complete Markets}
+\author{Simon Mishricky}
+\institute{Research School of Economics, Australian National University}
+\date{\today}
+
+\begin{document}
+
+\section{General Equilibrium}
+\frame{\titlepage}
+
+\begin{frame}{General Equilibrium}
+    Our task in this section is to understand the asset pricing representation a little more deeply. This section describes competitive equilibria of a pure exchange infinite horizon economy with stochastic endowments. These are useful for studying risk sharing, asset pricing and consumption.
+\end{frame}
+
+\begin{frame}{General Equilibrium}
+    We will describe two systems of markets: the \textcolor{blue}{Arrow-Debreu} structure with complete markets in dated contingent claims all traded at time 0, and a sequential-trading also known as \textcolor{blue}{Radner} structure with complete one-period Arrow securities. These two entail different assets and timings of trades, but have identical consumption allocation. Both are referred to as complete markets economies.
+\end{frame}
+
+\section{Preferences and Endowments}
+
+\begin{frame}{Preferences and Endowments}
+    In each period $t \ge 0$, there is a realisation of a stochastic event, $s_t \in S$. Let the history of events up and until time $t$ be denoted $s^t = [s_0, s_1, \dots, s_t]$.
+
+    The unconditional probability of observing a particular sequence of events $s^t$ is given by probability $\pi_t(s^t)$.
+
+    For $t > \tau$, we write the probability of observing $s^t$ conditional on the realisation of $s^\tau$ as $\pi_t(s^t | s^\tau)$. We will assume that trading occurs after observing $s_0$, which we capture by setting $\pi_0(s_0) = 1$ for the initially given value of $s_0$.
+\end{frame}
+
+\begin{frame}{Preferences and Endowments}
+    There are $I$ consumers named $i = 1, \dots, I$. Consumer $i$ owns a stochastic endowment of one good $y_t^i(s^t)$ that depends on the history $s^t$. The history $s^t$ is publicly observable.
+
+    Consumer $i$ purchases a history-dependent consumption plan $c^i = \{c_t^i(s^t)\}_{t=0}^\infty$ and orders these consumption streams by
+    \[
+        U_i(c^i) = \sum_{t=0}^\infty \sum_{s^t} \beta^t u_i[c_t^i(s^t)] \pi_t(s^t) = \mathbb{E}_0 \sum_{t=0}^\infty \beta^t u_i(c_t^i)
+    \]
+    Where $0 < \beta < 1$. Where $\mathbb{E}_0$ is the mathematical expectations operator, conditioned on $s_0$. Here $u_i(c)$ is an increasing, twice continuously differentiable, strictly concave function of consumption $c \ge 0$ of one good.
+\end{frame}
+
+\begin{frame}{Preferences and Endowments}
+    The utility function satisfies the \textcolor{blue}{Inada condition}
+    \[
+        \lim_{c \to 0} u'_i(c) = \infty
+    \]
+    This Inada condition implies that each agent chooses strictly positive consumption for every date-history pair. Those interior solutions enable us to confine our analysis to Euler equations that hold with equality and also guarantee that \textcolor{blue}{natural debt limits} do not bind in economies with sequential trading of Arrow securities.
+\end{frame}
+
+\begin{frame}{Preferences and Endowments}
+    We adopt the assumption, routinely employed in such models and in macroeconomics, that consumers share probabilities $\pi_t(s^t)$ for all $t$ and $s^t$.
+
+    A \emph{feasible allocation} satisfies
+    \[
+        \sum_i c^i_t(s^t) \le \sum_i y^i_t(s^t)
+    \]
+    For all $t$ and for all $s^t$.
+\end{frame}
+
+\section{Pareto Planner's Problem}
+
+\begin{frame}{Pareto Planner's Problem}
+    As a benchmark against which to measure allocations attained by a market economy, we seek efficient allocations. An allocation is said to be efficient if it is Pareto optimal, meaning that it has the property that any reallocation that makes one consumer strictly better off also makes one or more other consumers worse off.
+
+    We can find efficient allocations by posing a Pareto problem for a fictitious social planner.
+\end{frame}
+
+\begin{frame}{Pareto Planner's Problem}
+    \textbf{Pareto Planner's Problem}
+
+    The planner attaches nonnegative \emph{Pareto weights} $\lambda_i$ where $i = 1, \dots, I$ to the consumers' utilities and chooses allocations $c^i$, $i = 1, \dots, I$ to maximise
+    \[
+        W = \sum_{i=1}^I \lambda_i U_i(c^i)
+    \]
+    Subject to
+    \[
+        \sum_i c^i_t(s^t) \le \sum_i y^i_t(s^t)
+    \]
+    We call an allocation \emph{efficient} if it solves this problem for some set of nonnegative $\lambda_i$'s.
+\end{frame}
+
+\begin{frame}{Pareto Planner's Problem}
+    Let $\theta_t(s^t)$ be a nonnegative Lagrange multiplier on the feasibility constraint for time $t$ and history $s^t$, and form the Lagrangian
+    \[
+        \mathcal{L} = \sum_{t=0}^\infty \sum_{s^t} \left\{ \sum_{i=1}^I \lambda_i \beta^t u_i(c^i_t(s^t)) \pi_t(s^t) + \theta_t(s^t) \sum_{i=1}^I [y^i_t(s^t) - c^i_t(s^t)]\right\}
+    \]
+\end{frame}
+
+\begin{frame}{Pareto Planner's Problem}
+    The first-order condition for maximising $\mathcal{L}$ with respect to $c^i_t(s^t)$ is
+    \[
+        \beta^t u'_i(c^i_t(s^t)) \pi_t(s^t) = \lambda_i^{-1} \theta_t(s^t)
+    \]
+    for each $i$, $t$ and $s^t$. Taking the ratio of the first-order condition for consumers $i$ and 1, respectively, gives
+    \[
+        \frac{u'_i(c^i_t(s^t))}{u'_1(c^1_t(s^t))} = \frac{\lambda_1}{\lambda_i}
+    \]
+    Which implies
+    \[
+        c^i_t(s^t) = u'^{-1}_i(\lambda_i^{-1} \lambda_1 u'_1(c^1_t(s^t)))
+    \]
+\end{frame}
+
+\begin{frame}{Pareto Planner's Problem}
+    Substituting this into the feasibility condition at equality we get
+    \[
+        \sum_i u'^{-1}_i (\lambda_i^{-1} \lambda_1 u'_1(c^1_t(s^t))) = \sum_i y^i_t(s^t)
+    \]
+    This equation only has one unknown $c^1_t(s^t)$. The right side of this equation is the realised aggregate endowment, so the left side is a function only of the aggregate endowment.
+
+    Thus, given $\{\lambda_i\}_{i=1}^I$, $c^1_t(s^t)$ depends only on the current realisation of the aggregate endowment and not separately either on the date $t$ or on the specific history $s^t$ leading up to that aggregate or the cross-section distribution of individual endowments realised at $t$. This implies that for all $i$, $c^i_t(s^t)$ depends only on the aggregate endowment realisation.
+\end{frame}
+
+\begin{frame}{Pareto Planner's Problem}
+    Therefore we have the following proposition.
+
+    \begin{proposition}
+        An efficient allocation is a function of the realised aggregate endowment and does not depend separately on either the specific history $s^t$ leading up to that aggregate endowment or on the cross-section distribution of individual endowments realised at $t$: $c^i_t(s^t) = c^i_\tau(\tilde s^\tau)$ for $s^\tau$ and $\tilde s^\tau$ such that $\sum_j y^j_t(s^t) = \sum_j y^j_\tau(\tilde s^\tau)$.
+    \end{proposition}
+\end{frame}
+
+\section{Arrow-Debreu Equilibrium}
+
+\begin{frame}{Arrow-Debreu Equilibrium}
+    \textbf{Arrow-Debreu Equilibrium}
+
+    We now describe how an optimal allocation can be attained by a competitive equilibrium with the Arrow-Debreu timing. Consumers trade a complete set of dated history-contingent claims to consumption. Trades occur at time 0, after $s_0$ has been realised.
+\end{frame}
+
+\begin{frame}{Arrow-Debreu Equilibrium}
+    At $t = 0$, consumers can exchange claims on time $t$ consumption, contingent on history $s^t$ at price $q^0_t(s^t)$, measured in some unit of account. The superscript 0 refers to the date at which trades occur, while the subscript $t$ refers to the date that deliveries are to be made. The consumer's budget constraint is
+    \[
+        \sum_{t=0}^\infty \sum_{s^t} q^0_t(s^t) c^i_t(s^t) \le \sum_{t=0}^\infty \sum_{s^t} q^0_t(s^t) y^i_t(s^t)
+    \]
+\end{frame}
+
+\begin{frame}{Arrow-Debreu Equilibrium}
+    The consumer's problem is to choose $c^i$ to maximise
+    \[
+        U_i(c^i) = \sum_{t=0}^\infty \sum_{s^t} \beta^t u_i[c^i_t(s^t)] \pi_t(s^t)
+    \]
+    Subject to
+    \[
+        \sum_{t=0}^\infty \sum_{s^t} q^0_t(s^t) c^i_t(s^t) \le \sum_{t=0}^\infty \sum_{s^t} q^0_t(s^t) y^i_t(s^t)
+    \]
+    Underlying the \emph{single} budget constraint is the fact that multilateral trades are possible through a clearing operation that keeps track of net claims. All trades occur at time 0. After time 0, trades that were agreed to at time 0 are executed, but no more trades occur.
+\end{frame}
+
+\begin{frame}{Arrow-Debreu Equilibrium}
+    Attaching a Lagrange multiplier $\mu_i$ to each consumer's budget constraint. We obtain the first-order conditions for consumer's problem
+    \[
+        \frac{dU_i(c^i)}{dc^i_t(s^t)} = \mu_i q^0_t(s^t)
+    \]
+    For all $i$, $t$ and $s^t$. The left side is the derivative of total utility with respect to the time $t$, history $s^t$ component of consumption. Each consumer has its own Lagrange multiplier $\mu_i$ that is independent of time, given the utility function we have
+    \[
+        \beta^t u'_i[c^i_t(s^t)] \pi_t(s^t) = \mu_i q^0_t(s^t)
+    \]
+\end{frame}
+
+\begin{frame}{Arrow-Debreu Equilibrium}
+    Therefore we have the following definitions
+
+    \textcolor{darkblue}{\textbf{DEFINITION 1:}} A \emph{price system} is a sequence of functions $\{q^0_t(s^t)\}_{t=0}^\infty$. An \emph{allocation} is a list of sequences of functions $c^i = \{c^i_t(s^t)\}_{t=0}^\infty$ one for each $i$.
+
+    \textcolor{darkblue}{\textbf{DEFINITION 2:}} A \emph{competitive equilibrium} is a feasible allocation and a price system such that, given the price system, the allocation solves consumer's problem.
+\end{frame}
+
+\begin{frame}{Arrow-Debreu Equilibrium}
+    Notice that
+    \[
+        \beta^t u'_i[c^i_t(s^t)] \pi_t(s^t) = \mu_i q^0_t(s^t)
+    \]
+    Implies
+    \[
+        \frac{u'_i[c^i_t(s^t)]}{u'_j[c^j_t(s^t)]} = \frac{\mu_i}{\mu_j}
+    \]
+    For all pairs $(i, j)$. Thus, ratios of marginal utilities between pairs of agents are constant across all histories and dates.
+\end{frame}
+
+\begin{frame}{Arrow-Debreu Equilibrium}
+    See that this equilibrium allocation implies that
+    \[
+        c^i_t(s^t) = u'^{-1}_i \left\{ u'_1[c^1_t(s^t)] \frac{\mu_i}{\mu_j}\right\}
+    \]
+    Substituting this into the feasible allocation equation
+    \[
+        \sum_i c^i_t(s^t) \le \sum_i u^i_t(s^t)
+    \]
+    At equality we get
+    \[
+        \sum_i u'^{-1}_i \left\{ u'_1[c^1_t(s^t)] \frac{\mu_i}{\mu_j}\right\} = \sum_i y^i_t(s^t)
+    \]
+\end{frame}
+
+\begin{frame}{Arrow-Debreu Equilibrium}
+    The right side of this equation is the current realisation of the aggregate endowment. Therefore, the left side, and so $c^i_t(s^t)$, must also depend only on the current aggregate endowment, as well as on the ratios $\left\{\frac{\mu_i}{\mu_1}\right\}_{i=2}^I$. Therefore from
+    \[
+        c^i_t(s^t) = u'^{-1}_i \left\{ u'_1[c^1_t(s^t)] \frac{\mu_i}{\mu_1}\right\}
+    \]
+    It follows that the equilibrium allocation $c^i_t(s^t)$ for each $i$ depends only on the economy's aggregate endowment as well as on $\left\{\frac{\mu_j}{\mu_1}\right\}_{j=2}^I$.
+\end{frame}
+
+\begin{frame}{Arrow-Debreu Equilibrium}
+    We summarise this analysis in the following proposition.
+
+    \begin{proposition}
+        The competitive equilibrium allocation is a function of the realised aggregate endowment and does not depend on time $t$ or the specific history or on the cross section distribution of endowments: $c^i_t(s^t) = c^i_\tau(\tilde s^\tau)$ for all histories $s^t$ and $\tilde s^\tau$ such that $\sum_j y^j_t(s^t) = \sum_j y^j_\tau(\tilde s^\tau)$.
+    \end{proposition}
+\end{frame}
+
+\begin{frame}{Arrow-Debreu Equilibrium}
+    A competitive equilibrium allocation is a particular Pareto optimal allocation, one that sets that Pareto weights $\lambda_i = \mu_i^{-1}$. These weights are unique up to multiplication by a positive scalar. Furthermore, at a competitive equilibrium allocation, the shadow prices $\theta_t(s^t)$ for the associated planning problem equal competitive equilibrium prices $q^0_t(s^t)$ for goods to be delivered at date $t$ at history $s^t$.
+\end{frame}
+
+\begin{frame}{Arrow-Debreu Equilibrium}
+    The fact that allocations for the planning problem and the competitive equilibrium are identical reflects the \textcolor{blue}{two fundamental theorems of welfare economics}. The \textcolor{blue}{first welfare theorem} states that a competitive equilibrium allocation is efficient. The \textcolor{blue}{second welfare theorem} states that there exist a price system and an initial distribution of wealth that can support an efficient allocation as a competitive equilibrium allocation.
+\end{frame}
+
+\section{Pricing Arrow-Debreu Securities}
+
+\begin{frame}{Arrow-Debreu Equilibrium}
+    Now we look at pricing this Arrow-Debreu security. Many asset pricing models assume complete markets and price an asset by breaking it into a sequence of history-contingent claims, evaluating each component of that sequence with the relevant ``state price deflator'' $q^0_t(s^t)$, then adding up those values. The asset is \emph{redundant}, in the sense that it offers a bundle of history contingent dated claims, each component of which has been priced by the market.
+\end{frame}
+
+\begin{frame}{Arrow-Debreu Equilibrium}
+    Let $\{d_t(s^t)\}_{t=0}^\infty$ be a stream of claims on time $t$, history $s^t$ consumption, where $d_t(s^t)$ is a function of $s^t$. The price of an asset entitling the owner to this stream must be
+    \[
+        p^0_0(s_0) = \sum_{t=0}^\infty \sum_{s^t} q^0_t(s^t) d_t(s^t)
+    \]
+    If this did not hold, someone could make unbounded profits by synthesising this asset through purchases or sales of history-contingent dated commodities and then either buying or selling the asset.
+\end{frame}
+
+\begin{frame}{Arrow-Debreu Equilibrium}
+    For $\tau \ge 1$, suppose that we strip off the first $\tau - 1$ periods of the dividend and want the time 0 value of the remaining dividend stream $\{d_t(s^t)\}_{t \ge \tau}$. Specifically, we seek the value of this asset for a particular possible realisation of $s^\tau$.
+
+    Let $p^0_\tau(s^\tau)$ be the time 0 price of an asset that entitles the owner to dividend stream $\{d(s^t)\}_{t \ge \tau}$ if history $s^\tau$ is realised,
+    \[
+        p^0_\tau(s^\tau) = \sum_{t \ge \tau} \sum_{s^t | s^\tau} q^0_t(s^t) d_t(s^t)
+    \]
+    Where the summation over $s^t | s^\tau$ means that we sum over all possible subsequent histories $\tilde s^t$ such that $\tilde s^\tau = s^\tau$.
+\end{frame}
+
+\begin{frame}{Arrow-Debreu Equilibrium}
+    When the units of the price are time 0, state $s_0$ goods, the normalisation is $q^0_0(s_0) = 1$. To convert the price into units of time $\tau$, history $s^\tau$ consumption goods, divide by $q^0_\tau(s^\tau)$ to get
+    \[
+        p^\tau_\tau(s^\tau) \equiv \frac{p^0_\tau(s^\tau)}{q^0_\tau(s^\tau)} = \sum_{t \ge \tau} \sum_{s^t | s^\tau} \frac{q^0_t(s^t)}{q^0_\tau(s^\tau)} d_t(s^t)
+    \]
+    Notice that since $\beta^t u'_i[c^i_t(s^t)] \pi_t(s^t) = \mu_i q^0_t(s^t)$ we have
+    \begin{align*}
+        q^\tau_t(s^t) &\equiv \frac{q^0_t(s^t)}{q^0_\tau(s^\tau)} = \frac{\beta^t u'_i[c^i_t(s^t)] \pi_t(s^t)}{\beta^\tau u'_i[c^i_\tau(s^\tau)] \pi_\tau(s^\tau)} \\
+        &= \beta^{t-\tau} \frac{u'_i[c^i_t(s^t)]}{u'_i[c^i_\tau(s^\tau)]} \pi_t(s^t | s^\tau)
+    \end{align*}
+\end{frame}
+
+\begin{frame}{Arrow-Debreu Equilibrium}
+    The one period version of this equation
+    \[
+        q^\tau_{\tau+1}(s^{\tau+1}) = \beta \frac{u'_i[c^i_{\tau+1}(s^{\tau+1})]}{u'_i[c^i_\tau(s^\tau)]} \pi_{\tau+1}(s^{\tau+1} | s^\tau)
+    \]
+    The right side is the one-period \emph{pricing kernel} at time $\tau$. If we want to find the price at time $\tau$ at history $s^\tau$ of a claim to a random payoff $g(s_{\tau+1})$, we use
+    \[
+        p^\tau_\tau(s^\tau) = \sum_{s_{\tau+1}} q^\tau_{\tau+1}(s^{\tau+1}) g(s_{\tau+1})
+    \]
+\end{frame}
+
+\begin{frame}{Arrow-Debreu Equilibrium}
+    We can rearrange our derived equation to give
+    \[
+        p^\tau_\tau = \mathbb{E}_\tau \left[ \beta \frac{u'(c_{\tau+1})}{u'(c_\tau)} g(s_{\tau+1})\right]
+    \]
+    Where $\mathbb{E}_\tau$ is the conditional expectations operator. We have deleted the $i$ subscripts on the utility function and the $i$ superscripts on consumption, with the understanding that this equation is true for any consumer $i$; we have also rendered implicit the dependence of $c_\tau$ on $s^\tau$. Re-writing $\tau$ as $t$ and letting $R_{t+1} \equiv g(s_{t+1})/p^t_t(s^t)$ be the one-period gross return on the asset, this implies
+    \[
+        1 = \mathbb{E}_t \left[ \beta \frac{u'(c_{t+1})}{u'(c_t)} R_{t+1}\right] = \mathbb{E}_t m_{t+1} R_{t+1}
+    \]
+    Where $m_{t+1}$ is the stochastic discount factor. This is the fundamental asset pricing equation.
+\end{frame}
+
+\end{document}

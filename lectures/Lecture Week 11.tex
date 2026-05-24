@@ -1,0 +1,326 @@
+\documentclass[aspectratio=169,xcolor=dvipsnames]{beamer}
+
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{xfp}
+\pgfplotsset{compat=1.18}
+\usepackage[authoryear, round]{natbib}
+\usepackage{hyperref}
+\usetikzlibrary{arrows.meta,positioning,decorations.pathreplacing}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    citecolor=blue,
+    urlcolor=blue
+}
+
+\definecolor{darkgreen}{rgb}{0,0.5,0}
+\definecolor{darkblue}{rgb}{0,0,0.55}
+
+\newtheorem{proposition}{Proposition}
+\setbeamertemplate{footline}[frame number]
+\usetheme{Frankfurt}
+\usefonttheme{serif}
+
+\title{ECON8037: Financial Economics}
+\subtitle{\normalsize Week 11 Lecture - Complete Markets}
+\author{Simon Mishricky}
+\institute{Research School of Economics, Australian National University}
+\date{\today}
+
+\begin{document}
+
+\section{General Equilibrium}
+\frame{\titlepage}
+
+\begin{frame}{General Equilibrium}
+    We have established that equilibrium allocations are the same in the Arrow-Debreu economy with complete markets in dated contingent claims all traded at time 0 and in a Radner economy with sequential-trading with a complete set of one period Arrow securities.
+
+    This finding holds for arbitrary individual endowment processes $\{y^i_t(s^t)\}_i$ that are functions of the history of events $s^t$, which in turn are governed by some arbitrary probability measure $\pi_t(s^t)$.
+\end{frame}
+
+\begin{frame}{General Equilibrium}
+    At this level of generality, the pricing kernels $\tilde Q_t(s_{t+1} | s^t)$ and the wealth distributions $\mathbf{a}_t(s^t)$ in the sequential-trading economy both depend on the history $s^t$, so both are time-varying functions of all past events $\{s_\tau\}_{\tau=0}^t$. This can make it difficult to formulate an economic model that can be used to confront empirical observations.
+
+    We want a framework in which economic outcomes are functions of a limited number of ``state variables'' that summarise the effects of past events and current information. This leads us to make the following specialisation of the exogenous forcing processes that facilitates a recursive formulation of the sequential-trading equilibrium.
+\end{frame}
+
+\section{Recursive Competitive Equilibrium}
+
+\begin{frame}{Recursive Competitive Equilibrium}
+    Let $\pi(s' | s)$ be a Markov chain with given initial distribution $\pi_0(s)$ and state space $s \in S$. That is, $\mathbb{P}\{s_{t+1} = s' | s_t = s\} = \pi(s' | s)$ and $\mathbb{P}\{s_0 = s\} = \pi_0(s)$. The chain induces a sequence of probability measures $\pi_t(s^t)$ on histories $s^t$ via the recursions
+    \[
+        \pi_t(s^t) = \pi(s_t | s_{t-1}) \pi(s_{t-1} | s_{t-2}) \dots \pi(s_1 | s_0) \pi_0(s_0)
+    \]
+    We have assumed that trading occurs after $s_0$ has been observed, which we capture by setting $\pi_0(s_0) = 1$ for the initially given value of $s_0$.
+\end{frame}
+
+\begin{frame}{Recursive Competitive Equilibrium}
+    Because of the Markov property, the conditional probability $\pi_t(s^t | s^\tau)$ for $t > \tau$ depends only on the state $s_\tau$ at time $\tau$ and does not depend on the history before $\tau$,
+    \[
+        \pi_t(s^t | s^\tau) = \pi(s_t | s_{t-1}) \pi(s_{t-1} | s_{t-2}) \dots \pi(s_{\tau+1} | s_\tau)
+    \]
+    Next, we assume that consumers' endowments in period $t$ are time invariant measurable functions of $s_t$, $y^i_t(s^t) = y^i(s_t)$ for each $i$. All of our previous results continue to hold, but the Markov assumption for $s_t$ imparts further structure to equilibrium prices and quantities.
+\end{frame}
+
+\begin{frame}{Recursive Competitive Equilibrium}
+    Under our present assumption that $y^i_t(s^t) = y^i(s_t)$ for each $i$, it follows immediately that
+    \[
+        c^i_t(s^t) = \bar c^i(s_t)
+    \]
+    Substituting these into the pricing kernel equation shows that the pricing kernel in the sequential-trading equilibrium is a function only of the current state,
+    \[
+        \tilde Q_t(s_{t+1} | s^t) = \beta \frac{u'_i(\bar c^i(s_{t+1}))}{u'_i(\bar c^i(s_t))} \pi(s_{t+1} | s_t) \equiv Q(s_{t+1} | s_t)
+    \]
+\end{frame}
+
+\begin{frame}{Recursive Competitive Equilibrium}
+    After similar substitutions with respect to the Arrow-Debreu pricing equation, we can also establish history independence of relative prices in the Arrow-Debreu economy:
+
+    \begin{proposition}
+        If time $t$ endowments are a function of a Markov state $s_t$, the Arrow-Debreu equilibrium price of date-$t \ge 0$, history $s^t$ consumption goods expressed in terms of date $\tau$ $(0 \le \tau \le t)$, history $s^\tau$ consumption goods is not history dependent: $q^\tau_t(s^t) = q^j_k(\tilde s^k)$ for $j, k \ge 0$ such that $t - \tau = k - j$ and $[s_\tau, s_{\tau+1}, \dots, s_t] = [\tilde s_j, \tilde s_{j+1}, \dots, \tilde s_k]$.
+    \end{proposition}
+\end{frame}
+
+\begin{frame}{Recursive Competitive Equilibrium}
+    Using this proposition, we can verify that both the natural debt limits and consumers' wealth levels exhibit history independence,
+    \[
+        A^i_t(s^t) = \bar A^i(s_t)
+    \]
+    \[
+        \Gamma^i_t(s^t) = \bar \Gamma^i(s_t)
+    \]
+    The finding concerning wealth levels conveys a useful insight into how the sequential-trading competitive equilibrium attains the first-best outcome in which no idiosyncratic risk is borne by individual consumers. In particular, each consumer enters every period with a wealth level that is independent of past realisations of his endowment.
+\end{frame}
+
+\begin{frame}{Recursive Competitive Equilibrium}
+    The fact that the pricing kernel $Q(s' | s)$ and the endowment $y^i(s)$ are both functions only of a Markov state $s$ motivates us to seek a recursive formulation of the consumer's optimisation problem.
+
+    Consumer $i$'s state at time $t$ is its wealth $a^i_t$ and the current realisation $s_t$. We seek a pair of optimal policy functions $h^i(a, s), g_i(a, s, s')$ such that the consumer's optimal decisions are
+    \[
+        c^i_t = h^i(a^i_t, s_t)
+    \]
+    \[
+        a^i_{t+1}(s_{t+1}) = g^i(a^i_t, s_t, s_{t+1})
+    \]
+\end{frame}
+
+\begin{frame}{Recursive Competitive Equilibrium}
+    Let $v^i(a, s)$ be the optimal value of consumer $i$'s problem starting from state $(a, s)$; $v^i(a, s)$ is the maximum expected discounted utility that consumer $i$ with current wealth $a$ can attain in state $s$. The Bellman equation for the consumer's problem is
+    \[
+        v^i(a, s) = \max_{c, \hat a(s')} \left\{ u_i(c) + \beta \sum_{s'} v^i[\hat a(s'), s'] \pi(s' | s)\right\}
+    \]
+    where the maximisation is subject to the following version of the constraint
+    \[
+        c + \sum_{s'} \hat a(s') Q(s' | s) \le y^i(s) + a
+    \]
+    and also,
+    \[
+        c \ge 0
+    \]
+    \[
+        \hat a(s') \le \bar A^i(s')
+    \]
+\end{frame}
+
+\begin{frame}{Recursive Competitive Equilibrium}
+    Let the optimum decision rules be
+    \[
+        c = h^i(a, s)
+    \]
+    \[
+        \hat a(s') = g^i(a, s, s')
+    \]
+    Note that the solution of the Bellman equation implicitly depends on $Q(\cdot | \cdot)$ because it appears in the budget constraint. In particular, use the first-order conditions for the problem gives us
+    \[
+        Q(s_{t+1} | s_t) = \beta \frac{u'_i(c'_{t+1})}{u'_i(c^i_t)} \pi(s_{t+1} | s_t)
+    \]
+    where it is understood that $c^i_t = h^i(a^i_t, s_t)$ and $c^i_{t+1} = h^i(a^i_{t+1}(s_{t+1}), s_{t+1}) = h^i(g^i(a^i_t, s_t, s_{t+1}), s_{t+1})$.
+\end{frame}
+
+\begin{frame}{Recursive Competitive Equilibrium}
+    \textcolor{darkblue}{\textbf{DEFINITION:}} A \emph{recursive competitive equilibrium} is an initial distribution of wealth $\mathbf{a}_0$, a set of borrowing limits $\{\bar A^i(s)\}_{i=1}^I$, a pricing kernel $Q(s' | s)$, sets of value functions $\{v^i(a, s)\}_{i=1}^I$ and decision rules $\{h^i(a, s), g^i(a, s, s')\}_{i=1}^I$ such that
+    \begin{enumerate}[(a)]
+        \item The state-by-state borrowing constraints satisfy the recursion
+        \[
+            \bar A^i(s) = y^i(s) + \sum_{s'} Q(s' | s) \bar A^i(s')
+        \]
+        \item For all $i$, given $a^i_0$, $\bar A^i(s)$, and the pricing kernel, the value functions and decisions rules solve the consumer's problem;
+        \item For all realisations of $\{s_t\}_{t=0}^\infty$, the consumption and asset portfolios $\{\{c^i_t, \{\hat a^i_{t+1}(s')\}_{s'}\}_i\}$ implied by the decision rules satisfy $\sum_i c^i_t = \sum_i y^i(s^t)$ and $\sum_i \hat a^i_{t+1}(s') = 0$ for all $t$ and $s'$.
+    \end{enumerate}
+\end{frame}
+
+\section{Arbitrage-Free Pricing}
+
+\begin{frame}{Recursive Competitive Equilibrium}
+    We are sometimes interested in the price at time $t$ of a claim to one unit of consumption at date $\tau > t$ contingent on the time $\tau$ state being $s_\tau$ regardless of the particular history by which $s_\tau$ is reached at $\tau$.
+
+    We let $Q_j(s' | s)$ denote the $j$-step pricing kernel to be interpreted as follows: $Q_j(s' | s)$ gives the price of one unit of consumption $j$ periods ahead, contingent on the state in that future period being $s'$, given that the current state is $s$.
+\end{frame}
+
+\begin{frame}{Recursive Competitive Equilibrium}
+    With markets in all possible $j$-step ahead contingent claims, the counterpart to budget constraint, the consumer's budget constraint at time $t$, is
+    \[
+        c^i_t + \sum_{j=1}^\infty \sum_{s_{t+j}} Q_j(s_{t+j} | s_t) z^i_{t,j}(s_{t+j}) \le y^i(s_t) + a^i_t
+    \]
+    Here $z^i_{t,j}(s_{t+j})$ is consumer $i$'s holdings at the end of period $t$ of contingent claims that pay one unit of the consumption good $j$ periods ahead at date $t+j$, contingent on the state at date $t+j$ being $s_{t+j}$.
+\end{frame}
+
+\begin{frame}{Recursive Competitive Equilibrium}
+    The consumer's wealth in the next period depends on the chosen asset portfolio and the realisation of $s_{t+1}$,
+    \[
+        a^i_{t+1}(s_{t+1}) = z^i_{t,1}(s_{t+1}) + \sum_{j=2}^\infty \sum_{s_{t+j}} Q_{j-1}(s_{t+j} | s_{t+1}) z^i_{t,j}(s_{t+j})
+    \]
+    The realisation of $s_{t+1}$ determines which element of the vector of one-period-ahead claims $\{z^i_{t,1}(s_{t+1})\}$ pays off at time $t+1$, and also the capital gains and losses inflicted on the holding of longer horizon claims implied by equilibrium prices $Q_j(s_{t+j+1} | s_{t+1})$.
+\end{frame}
+
+\begin{frame}{Recursive Competitive Equilibrium}
+    With respect to $z^i_{t,j}(s_{t+j})$ for $j > 1$, use the first-order condition for the problem on the right of
+    \[
+        v^i(a, s) = \max_{c, \hat a(s')} \left\{ u_i(c) + \beta \sum_{s'} v^i[\hat a(s'), s'] \pi(s' | s)\right\}
+    \]
+    rearrange to get
+    \[
+        Q_j(s_{t+j} | s_t) = \sum_{s_{t+1}} \beta \frac{u'_i[c^i_{t+1}(s_{t+1})]}{u'_i(c^i_t)} Q_{j-1}(s_{t+j} | s_{t+1})
+    \]
+    This expression, evaluated at the competitive equilibrium consumption allocation, characterises two adjacent pricing kernels. We can compute recursively
+    \[
+        Q_j(s_{t+j} | s_t) = \sum_{s_{t+1}} Q_1(s_{t+1} | s_t) Q_{j-1}(s_{t+j} | s_{t+1})
+    \]
+\end{frame}
+
+\begin{frame}{Recursive Competitive Equilibrium}
+    \textbf{Arbitrage-free pricing}
+
+    It is useful briefly to describe how arbitrage free pricing theory deduces restrictions on asset prices by manipulating budget sets with redundant assets. We present an arbitrage argument as an alternative way of deriving restriction
+    \[
+        Q_j(s_{t+j} | s_t) = \sum_{s_{t+1}} Q_1(s_{t+1} | s_t) Q_{j-1}(s_{t+j} | s_{t+1})
+    \]
+    that was established above by using consumer's first-order conditions evaluated at the equilibrium consumption allocation.
+
+    In addition to $j$-step-ahead contingent claims, we illustrate the arbitrage-free pricing theory augmenting the trading opportunities on our Arrow securities economy by letting the consumer also trade an ex-dividend Lucas tree.
+\end{frame}
+
+\begin{frame}{Recursive Competitive Equilibrium}
+    Because markets are already complete, these additional assets are redundant. They have to be priced in a way that leaves the budget set unaltered.
+
+    Assume that at time $t$, in addition to purchasing a quantity $z^i_{t,j}(s_{t+j})$ of $j$-step-ahead claims paying one unit of consumption at time $t+j$ if the state takes value $s_{t+j}$ at time $t+j$, the consumer also purchases $N_t$ units of a stock or Lucas tree.
+\end{frame}
+
+\begin{frame}{Recursive Competitive Equilibrium}
+    Let the ex-dividend price of the tree at time $t$ be $p(s_t)$. Next period, the tree pays a dividend $d(s_{t+1})$ depending on the state $s_{t+1}$. Ownership of the $N_t$ units of the tree at the beginning of $t+1$ entitles the consumer to a claim on $N_t [p(s_{t+1}) + d(s_{t+1})]$ units of time $t+1$ consumption.
+
+    As before, let $a_t$ be the wealth of the consumer, apart from his endowment, $y(s_t)$. In this setting the budget constraint becomes
+    \[
+        c_t + \sum_{j=1}^\infty \sum_{s_{t+j}} Q_j(s_{t+j} | s_t) z_{t,j}(s_{t+j}) + p(s_t) N_t \le a_t + y(s_t)
+    \]
+    and
+    \[
+        a_{t+1} = z_{t,1}(s_{t+1}) + [p(s_{t+1}) + d(s_{t+1})] N_t + \sum_{j=2}^\infty \sum_{s_{t+j}} Q_{j-1}(s_{t+j} | s_{t+1}) z_{t,j}(s_{t+j})
+    \]
+\end{frame}
+
+\begin{frame}{Recursive Competitive Equilibrium}
+    Multiply the above equation by $Q_1(s_{t+1} | s_t)$, sum over $s_{t+1}$ solve for $\sum_{s_{t+1}} Q_1(s_{t+1} | s_t) z_{t,1}(s_t)$ and substitute into the above budget constrain to get
+    \begin{align*}
+        & c_t + \left\{ p(s_t) - \sum_{s_{t+1}} Q_1(s_{t+1} | s_t)[p(s_{t+1}) + d(s_{t+1})]\right\} N_t \\
+        & + \sum_{j=2}^\infty \sum_{s_{t+j}} \left\{ Q_j(s_{t+j} | s_t) - \sum_{s_{t+1}} Q_{j-1}(s_{t+j} | s_{t+1}) Q_1(s_{t+1} | s_t) z_{t,j}(s_{t+j})\right\} \\
+        & + \sum_{t+1} Q_1(s_{t+1} | s_t) a_{t+1}(s_{t+1}) \le a_t + y(s_t)
+    \end{align*}
+\end{frame}
+
+\begin{frame}{Recursive Competitive Equilibrium}
+    If the two terms in braces are not zero, the consumer can attain unbounded consumption and future wealth by purchasing or selling either the stock (if the first term in braces is not zero) or a state-contingent claim (if any of the terms in the second set of braces is not zero). Therefore, so long as the utility function has no satiation point, in any equilibrium, the terms in the braces must be zero.
+\end{frame}
+
+\begin{frame}{Recursive Competitive Equilibrium}
+    Thus, we have the arbitrage-free pricing formulas
+    \[
+        p(s_t) = \sum_{s_{t+1}} Q_1(s_{t+1} | s_t)[p(s_{t+1}) + d(s_{t+1})]
+    \]
+    \[
+        Q_j(s_{t+j} | s_t) = \sum_{s_{t+1}} Q_{j-1}(s_{t+j} | s_{t+1}) Q_1(s_{t+1} | s_t)
+    \]
+    These are called \emph{arbitrage-free pricing formulas} because if they were violated, there would exist an \emph{arbitrage}. An arbitrage is defined as a risk-free transaction that earns positive profits.
+\end{frame}
+
+\section{Recursive Pareto Problem}
+
+\begin{frame}{Recursive Pareto Problem}
+    \textbf{Recursive Pareto Problem}
+
+    We have already seen the Pareto problem which characterised the Pareto optimal allocations. We now formulate the Pareto problem recursively. For this purpose we consider special case of an economy with a constant aggregate endowment and two types of consumer with $y^1_t = s_t$, $y^2_t = 1 - s_t$. We assume that the $s_t$ process is i.i.d, so that $\pi_t(s^t) = \pi(s_t) \pi(s_{t-1}) \dots \pi(s_0)$. Also, let's assume that $s_t$ has a discrete distribution so that $s_t \in [\bar s_1, \dots, \bar s_S]$ with probabilities $\Pi_i = \mathbb{P}\{s_t = \bar s_i\}$ where $\bar s_{i+1} > \bar s_i$ and $\bar s_1 \ge 0$ and $\bar s_S \le 1$.
+\end{frame}
+
+\begin{frame}{Recursive Pareto Problem}
+    In our recursive formulation, each period a planner delivers a pair of previously promised discounted utility streams by assignment a state-contingent consumption allocation today and a pair of state-contingent promised discounted utility streams starting tomorrow. Both the state-contingent consumption today and the promised discounted utility tomorrow are functions of the initial promised discounted utility levels.
+\end{frame}
+
+\begin{frame}{Recursive Pareto Problem}
+    Define $v$ as the expected discounted utility of a type 1 person and $P(v)$ as the maximal expected discounted utility that can be offered to a type 2 person, given that a type 1 person is offered at least $v$. Each of these expected values is to be evaluated before the realisation of the state at the initial date.
+\end{frame}
+
+\begin{frame}{Recursive Pareto Problem}
+    The Pareto problem is to choose stochastic processes $\{c^1_t(s^t), c^2_t(s^t)\}_{t=0}^\infty$ to maximise $P(v)$ subject to $c^1_t(s^t) + c^2_t(s^t) = 1$ and the utility constraint.
+
+    Let $\bar c = \bar c^1$ be the constant consumption allocated to a type 1 person and $1 - \bar c = \bar c^2$ be the constant consumption allocated to a type 2 person. Since we have shown that the competitive equilibrium allocation is Pareto optimal allocation, we already know one point on the Pareto frontier $P(v)$. In particular, when a type 1 person is promised $v = u_1(\bar c)/(1 - \beta)$, a type 2 person attains life-time utility $P(v) = u_2(1 - \bar c)/(1 - \beta)$.
+\end{frame}
+
+\begin{frame}{Recursive Pareto Problem}
+    We can express the discounted values $v$ and $P(v)$ recursively as
+    \[
+        v = \sum_{s=1}^S [u_1(c_s + \beta w_s)] \Pi_i
+    \]
+    and
+    \[
+        P(v) = \sum_{s=1}^S [u_2(1 - c_s) + (w_s)] \Pi_s
+    \]
+    where $c_s$ is consumption of the type 1 person in state $s$, $w_s$ is the continuation value assigned to the type 1 person in state $s$; and $1 - c_s$ and $P(w_s)$ are the consumption and the continuation value, respectively, assigned to a type 2 person in state $s$.
+\end{frame}
+
+\begin{frame}{Recursive Pareto Problem}
+    Assume that the continuation values $w_s \in V$, where $V$ is a set of admissible discounted values of utility. We assume that $V = [u_1(\epsilon)/(1-\beta), u_1(1)/(1-\beta)]$ where $\epsilon \in (0,1)$ is an arbitrarily small number.
+
+    In effect, before the realisation of the current state, a Pareto optimal allocation offers the type 1 person a state-contingent vector of consumption $c_s$ in state $s$ and a state-contingent vector of continuation values $w_s$ in state $s$, with each $w_s$ itself being a present value of one-period future utilities.
+\end{frame}
+
+\begin{frame}{Recursive Pareto Problem}
+    In terms of the pair of values $(v, P(v))$, we can express the Pareto problem recursively as
+    \[
+        P(v) = \max_{\{c_s, w_s\}_{s=1}^S} \sum_{s=1}^S [u_2(1 - c_s) + \beta P(w_s)] \Pi_s
+    \]
+    where the maximisation is subject to
+    \[
+        \sum_{s=1}^S [u_1(c_s) + \beta w_s] \Pi_s \ge v
+    \]
+    where $c_s \in [0, 1]$ and $w_s \in V$.
+\end{frame}
+
+\begin{frame}{Recursive Pareto Problem}
+    To solve the Pareto problem, for the Lagrangian
+    \[
+        \mathcal{L} = \sum_{s=1}^S \Pi_s [u_2(1 - c_s) + \beta P(w_s) \theta(u_1(c_s) + \beta w_s)] - \theta v
+    \]
+    Where $\theta$ is a Lagrange multiplier. First-order conditions with respect to $c_s$ and $w_s$, respectively, are
+    \[
+        -u'_2(1 - c_s) + \theta u'_1(c_s) = 0
+    \]
+    \[
+        P'(w_s) + \theta = 0
+    \]
+    The envelope condition is $P'(v) = -\theta$. Thus we can write $P'(w_s) = P'(v)$. But $P(v)$ happens to be strictly concave, so this equality implies $w_s = v$. Therefore, any solution of the Pareto problem leaves the continuation value $w_s$ independent of the state $s$. Therefore
+    \[
+        \frac{u'_2(1 - c_s)}{u'_1(c_s)} = -P'(v)
+    \]
+\end{frame}
+
+\begin{frame}{Recursive Pareto Problem}
+    The right side of the above equation is independent of $s$, so is the left side, and therefore $c$ is independent of $s$. And since $v$ is constant over time (because $w_s = v$ for all $s$) it follows that $c$ is constant over time. Notice that $P'(v)$ serves as a relative Pareto weight on the type 1 person. The recursive formulation brings out that, because $P'(w_s) = P'(v)$, the relative Pareto weight remains constant over time and is independent of the realisation of $s_t$. The planner imposes complete risk sharing.
+
+    This framework serves much of financial economics as foundation. It is the foundation of extensive literature on asset pricing and risk sharing.
+\end{frame}
+
+\end{document}

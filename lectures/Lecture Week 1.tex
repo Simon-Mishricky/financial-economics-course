@@ -1,0 +1,278 @@
+\documentclass[aspectratio=169,xcolor=dvipsnames]{beamer}
+
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{xfp}
+\pgfplotsset{compat=1.18}
+\usepackage[authoryear, round]{natbib}
+\usepackage{hyperref}
+\usetikzlibrary{arrows.meta,positioning,decorations.pathreplacing}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    citecolor=blue,
+    urlcolor=blue
+}
+
+\definecolor{darkgreen}{rgb}{0,0.5,0}
+\definecolor{darkblue}{rgb}{0,0,0.55}
+
+\newtheorem{proposition}{Proposition}
+\setbeamertemplate{footline}[frame number]
+\usetheme{Frankfurt}
+\usefonttheme{serif}
+
+% Title info
+\title{ECON8037: Financial Economics}
+\subtitle{\normalsize Week 1 Lecture - Introduction to Financial Economics}
+\author{Simon Mishricky}
+\institute{Research School of Economics, Australian National University}
+\date{\today}
+
+\begin{document}
+
+\section{Introduction}
+\frame{\titlepage}
+
+\begin{frame}{Introduction to Financial Economics}
+    \begin{itemize}
+        \item Welcome to Financial Economics
+        \item This is a graduate course in Financial Economics
+        \item Lecturer: Simon Mishricky
+        \item Email: simon.mishricky@anu.edu.au
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Introduction to Financial Economics}
+    Course Structure
+    \begin{itemize}
+        \item Introduction to Financial Economics (2 Weeks)
+        \item Introduction to Python (2 Weeks)
+        \item Asset Valuation (4 Weeks)
+        \item Complete Markets (3 Weeks)
+        \item Review (1 Week)
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Introduction to Financial Economics}
+    Assessments
+    \begin{itemize}
+        \item Take Home Assignment 1 (Week 4) - 20\%
+        \item Take Home Assignment 2 (Week 10) - 20\%
+        \item Final Exam (Exam Period) - 60\%
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Introduction to Financial Economics}
+    \begin{itemize}
+        \item Financial economics aims to describe the equilibrium in financial markets, where economic agents interact to trade claims to \emph{uncertain future} payoffs
+        \item Therefore we seek to discover how much agents should be compensated for
+        \begin{itemize}
+            \item Time
+            \item Risk
+            \item Liquidity
+        \end{itemize}
+        \item All three of these characteristics affect asset prices in different ways and need to be accounted for properly
+        \item We will begin by looking at different utility functions
+    \end{itemize}
+\end{frame}
+
+\section{Risk Aversion and Utility}
+
+\begin{frame}{Jensen's Inequality}
+    \textcolor{darkblue}{\textbf{DEFINITION:}} $f$ is \emph{concave} if and only if, for all $\lambda \in [0,1]$ and values $a, b$
+    \[
+        \lambda f(a) + (1-\lambda) f(b) \le f(\lambda a + (1-\lambda) b)
+    \]
+    If $f$ is twice differentiable, then concavity implies that $f'' \le 0$. Note that because the inequality is weak in the above definition, a linear function is concave. Strict concavity uses a strong inequality and excludes linear functions, but we proceed with the weak concept of concavity. Now consider a random variable $x$.
+
+    \textcolor{darkblue}{\textbf{DEFINITION:}} \emph{Jensen's Inequality} states that
+    \[
+        \mathbb{E} f(x) \le f(\mathbb{E} x)
+    \]
+    for all possible $x$ if and only if $f$ is concave.
+\end{frame}
+
+\begin{frame}{Risk Aversion}
+    As a first application, we can use it to establish the equivalence of risk aversion and concavity of the utility function.
+
+    \textcolor{darkblue}{\textbf{DEFINITION:}} An agent is risk averse if they (weakly) dislike all zero-mean risk at all levels of wealth. That is, for initial wealth levels $W$ and risk $x$ with $\mathbb{E} x = 0$
+    \[
+        \mathbb{E} u(W + x) \le u(W)
+    \]
+    To show that risk aversion is equivalent to concavity of the utility function, we simply rewrite the definition of risk aversion as
+    \[
+        \mathbb{E} u(z) \le u(\mathbb{E} z)
+    \]
+    Where $z = W + x$ and apply Jensen's Inequality.
+\end{frame}
+
+\begin{frame}{CARA}
+    Since risk aversion is concavity, and concavity restricts the sign of the second derivative of the utility function (assuming the derivative exists), it is natural to construct a quantitative measure of risk aversion using the second derivative $u''$, scaled to avoid dependence on the units of measurement for utility.
+
+    \textcolor{darkblue}{\textbf{DEFINITION:}} The \emph{coefficient of absolute risk aversion} (CARA) $A(W)$ is defined by
+    \[
+        A(W) = - \frac{u''(W)}{u'(W)}
+    \]
+    As the notation makes clear, in general this is a function of the initial level of wealth.
+\end{frame}
+
+\section{Utility Functions}
+
+\begin{frame}{Utility Functions}
+    Almost all theory and empirical work in finance uses some member of the class of utility functions known as linear risk tolerance (LRT) or hyperbolic absolute risk aversion (HARA). The HARA class of utility functions can be written as
+    \[
+        u(c) = a + b\left(\eta + \frac{c}{\gamma}\right)^{1-\gamma}
+    \]
+    Defined for levels of consumption or wealth $c$ such that $\eta + c/\gamma > 0$. The parameter $a$ and the magnitude of the parameter $b$ do not affect choices but can be set freely to deliver convenient representations of utility in special cases.
+\end{frame}
+
+\begin{frame}{Utility Functions}
+    For these utility functions, risk tolerance --- the reciprocal of absolute risk aversion --- is given by
+    \[
+        T(c) = \frac{1}{A(c)} = \eta + \frac{c}{\gamma}
+    \]
+    Which is linear in $c$. Absolute risk aversion itself is then hyperbolic in $c$
+    \[
+        A(c) = \left(\eta + \frac{c}{\gamma}\right)^{-1}
+    \]
+    Relative risk aversion is, therefore,
+    \[
+        R(c) = c A(c) = c \left(\eta + \frac{c}{\gamma}\right)^{-1}
+    \]
+    There are several important special cases of HARA utility.
+\end{frame}
+
+\begin{frame}{Utility Functions}
+    \textbf{Quadratic Utility} has $\gamma = -1$.
+
+    This implies that risk tolerance declines in wealth, and absolute risk aversion increases in wealth. In addition, the quadratic utility function has a ``bliss point'' at which $u' = 0$.
+
+    These are important disadvantages, although the quadratic utility is tractable in models with additive risk and has even been used in macroeconomic models with growth, where the trending preference parameters are used to keep the bliss point well above levels of wealth or consumption used in the data.
+\end{frame}
+
+\begin{frame}{Utility Functions}
+    \textbf{Constant Absolute Risk Aversion (CARA) Utility} is the limit as $\gamma \to -\infty$.
+
+    To obtain constant absolute risk aversion $A$, we need
+    \[
+        -u''(c) = A u'(c)
+    \]
+    for all $c > 0$. Solving this differential equation, we get
+    \[
+        u(c) = -\frac{\exp(-Ac)}{A}
+    \]
+    where $A = 1/\eta$. This utility function does not have a bliss point, but it is bounded above; utility approaches zero as consumption/wealth increases. CARA utility is tractable with normally distributed risks because then utility is lognormally distributed. In addition, it implies that wealth has no effect on the demand for risky assets, which makes it relatively easy to calculate an equilibrium because one does not have to keep track of the wealth distribution.
+\end{frame}
+
+\begin{frame}{Utility Functions}
+    \textbf{Constant Relative Risk Aversion (CRRA) Utility} has $\eta = 0$ and $\gamma > 0$. Absolute risk aversion is declining in wealth --- a desirable property --- while relative risk aversion $R(c) = \gamma$, is a constant. For $\gamma \neq 1$, $a$ and $b$ can be chosen to write the utility as
+    \[
+        u(c) = \frac{c^{1-\gamma} - 1}{1 - \gamma}
+    \]
+    When $\gamma \to 1$ the equation is
+    \[
+        u(c) = \ln(c)
+    \]
+    Power utility (CRRA) is appealing because it implies stationary risk-premia and interest rates even in the presence of long-run economic growth. Also it is tractable in the presence of multiplicative lognormally distributed risk. For these reasons it is a workhorse model in the asset pricing and macroeconomics literature.
+\end{frame}
+
+\section{Static Portfolio Choice}
+
+\begin{frame}{Static Portfolio Choice}
+    We consider a choice between one safe and one risky asset, making only weak assumptions on preferences and the distribution of returns on the risky asset. An investor with initial wealth $W$ can invest in a safe asset with return $R$ or a risky asset with return $R + z$. Importantly $z$, the excess return on the risky asset over the safe asset need not have a zero mean.
+
+    After investing for one period the investor's wealth is
+    \[
+        W(1 + R) + \theta z = W_0 + \theta z
+    \]
+    where $\theta$ is the dollar amount (not the share of wealth) invested in the risky asset. The notation $W_0$ helps to make it clear that this is the wealth level in the next period if the investor holds none of the risky asset.
+\end{frame}
+
+\begin{frame}{Static Portfolio Choice}
+    The investor's optimisation problem is
+    \[
+        V(\theta) = \max_\theta \{\mathbb{E} u(W_0 + \theta z)\}
+    \]
+    The first-order condition for this problem is
+    \[
+        V'(\theta) = \mathbb{E} z u'(W_0 + \theta z) = 0
+    \]
+    Where $\theta$ is the optimal amount invested in the risky asset, and the second-order condition is
+    \[
+        V''(\theta) = \mathbb{E} z^2 u''(W_0 + \theta z) < 0
+    \]
+    Which must hold for a risk-averse investor with twice differentiable concave utility.
+\end{frame}
+
+\begin{frame}{Static Portfolio Choice}
+    Without solving the problem explicitly, we can evaluate the first derivative of the utility function at zero investment in the risky asset
+    \[
+        V'(0) = \mathbb{E} z u'(W_0)
+    \]
+    Which has the same sign as $\mathbb{E} z$. This tells us that --- unsurprisingly --- there should be no investment in a risky asset with a zero expected excess return, but the investment in the risky asset should be positive if it has a positive expected excess return, regardless of the level of risk aversion.
+
+    This \textcolor{darkblue}{principle of participation} tells us that non-participation in risky asset markets with positive risk premia cannot be justified by risk aversion alone. To rationalise non-participation we need to add some other ingredient to the model.
+\end{frame}
+
+\begin{frame}{Static Portfolio Choice}
+    The principle of participation tells us the sign of the optimal investment in a risky asset, but we would like to derive an explicit expression for the magnitude. Let $z \sim N(\mu, \sigma^2)$ and utility is CARA, with risk aversion $A$. In this case the problem becomes
+    \[
+        V(\theta) = \max_\theta \mathbb{E}[-\exp(-A(W_0 + \theta z))]
+    \]
+    or equivalently
+    \[
+        \min_\theta \mathbb{E}[\exp(-A(W_0 + \theta z))]
+    \]
+    The term in square brackets is lognormally distributed. Therefore we can apply the following useful result. For any lognormal random variable $x$
+    \[
+        \ln \mathbb{E} x = \mathbb{E} \ln x + \frac{1}{2} \mathrm{Var} \ln x
+    \]
+\end{frame}
+
+\begin{frame}{Static Portfolio Choice}
+    Applying this result, the portfolio choice is equivalent to
+    \[
+        \min_\theta \{\ln \mathbb{E} [\exp(-A(W_0 + \theta z))]\} = \min_\theta \left\{-A(W_0 + \theta \mu) + \frac{1}{2} A^2 \theta^2 \sigma^2\right\}
+    \]
+    Which in turn is equivalent to
+    \[
+        \max_\theta \left\{A(W_0 + \theta \mu) - \frac{1}{2} A^2 \theta^2 \sigma^2\right\}
+    \]
+    The solution therefore becomes
+    \[
+        \theta = \frac{\mu}{A \sigma^2}
+    \]
+    Which is independent of initial levels of wealth.
+\end{frame}
+
+\begin{frame}{Static Portfolio Choice}
+    The CARA-normal framework is widely used because it has numerous tractable features. Specifically
+    \begin{itemize}
+        \item Multiple assets
+        \item Additive background risk
+        \item Equilibrium with heterogeneous agents
+    \end{itemize}
+    On the other hand, the CARA-normal framework also has several serious difficulties:
+    \begin{itemize}
+        \item Wealth irrelevance for risky investment
+        \item Bounded utility and unbounded returns
+        \item Trending risk premia
+        \item Arbitrary time interval
+    \end{itemize}
+\end{frame}
+
+\section{Summary}
+
+\begin{frame}{Summary}
+    \begin{itemize}
+        \item The essence of this lecture is the utility functions that we commonly use in financial economics.
+        \item These functions summarise the per-period risk preferences of the economic agents.
+        \item Over this course we will see how information, time and intertemporal risk effect asset prices.
+    \end{itemize}
+\end{frame}
+
+\end{document}

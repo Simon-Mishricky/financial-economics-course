@@ -1,0 +1,397 @@
+\documentclass[aspectratio=169,xcolor=dvipsnames]{beamer}
+
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{xfp}
+\pgfplotsset{compat=1.18}
+\usepackage[authoryear, round]{natbib}
+\usepackage{hyperref}
+\usetikzlibrary{arrows.meta,positioning,decorations.pathreplacing}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    citecolor=blue,
+    urlcolor=blue
+}
+
+\definecolor{darkgreen}{rgb}{0,0.5,0}
+\definecolor{darkblue}{rgb}{0,0,0.55}
+
+\newtheorem{proposition}{Proposition}
+\setbeamertemplate{footline}[frame number]
+\usetheme{Frankfurt}
+\usefonttheme{serif}
+
+% Title info
+\title{ECON8037: Financial Economics}
+\subtitle{\normalsize Week 8 Lecture - The Economics of Cryptocurrencies II: Optimal Design, Welfare, and Payments (Chiu \& Koeppl, 2017)}
+\author{Simon Mishricky}
+\institute{Research School of Economics, Australian National University}
+\date{\today}
+
+\begin{document}
+\section{Recap}
+\frame{\titlepage}
+
+\begin{frame}{Where we left off}
+    Lecture I built a Lagos--Wright model with a cryptocurrency:
+    \vspace{2mm}
+    \begin{itemize}
+        \item Mining is competitive and dissipates all rewards: $MQ = \beta R$.
+        \item Buyers can attack via secret mining. A contract $(d,N)$ is
+              \emph{double-spending proof} iff
+              \[
+                  d \;<\; R(N+1)N.
+              \]
+        \item Settlement cannot be both immediate and final.
+        \item Mining reward is endogenous:
+              \[
+                  R = \frac{Z(\mu-1) + D\tau}{\bar N+1}.
+              \]
+    \end{itemize}
+    \vspace{2mm}
+    \textbf{Today.} Optimal $(\mu,\tau)$, calibration to Bitcoin, welfare, comparison with
+    Fedwire and US debit cards.
+\end{frame}
+
+\begin{frame}{Roadmap for Lecture II}
+    \begin{enumerate}
+        \item Optimal cryptocurrency design (the planner's Ramsey problem).
+        \item Calibrating the model to Bitcoin.
+        \item Welfare cost: Bitcoin vs.\ cash vs.\ optimal cryptocurrency.
+        \item Best use cases: Fedwire (large-value) vs.\ US debit cards (retail).
+        \item Scalability and policy implications.
+    \end{enumerate}
+\end{frame}
+
+\section{Optimal design}
+
+\begin{frame}{Two design instruments}
+    The cryptocurrency designer chooses $(\mu,\tau)$:
+    \vspace{2mm}
+    \begin{itemize}
+        \item $\mu \ge 1$ -- gross money growth rate (\emph{seigniorage}).
+        \item $\tau \ge 0$ -- transaction fee (fraction of $d$ paid to miners).
+    \end{itemize}
+    \vspace{3mm}
+    Both finance mining rewards (which dissipate as mining cost):
+    \[
+        \frac{\beta}{\mu} R(\bar N+1) \;=\; B(\mu - 1 + \sigma\tau)\!\int \frac{x(\varepsilon)}{1-\tau}\,dF_\varepsilon(\varepsilon).
+    \]
+    \vspace{1mm}
+    \textbf{Trade-off.} More mining $\Rightarrow$ tighter DS-proof constraint $\Rightarrow$ larger trade.
+    But mining is a deadweight loss and inflation/fees distort consumption.
+\end{frame}
+
+\begin{frame}{Social welfare}
+    Welfare = average utility per period:
+    \[
+        \mathcal{W} \;=\; B\sigma\!\int_0^\infty \bigl[\delta^{N(\varepsilon)}\varepsilon u(x(\varepsilon)) - x(\varepsilon)\bigr] dF_\varepsilon(\varepsilon) - C(\bar N+1). \tag{37}
+    \]
+    \vspace{1mm}
+    By Lemma 1 (mining dissipation), the mining cost equals $\beta R(\bar N+1)/\mu$,
+    the present value of total rewards.
+\end{frame}
+
+\begin{frame}{The planner's problem}
+    \[
+        \max_{\mu,\tau} \;\; B\!\int \!\sigma\,\delta^{N(\varepsilon)}\varepsilon u[x(\varepsilon)] - x(\varepsilon)\,dF_\varepsilon(\varepsilon) - \tfrac{\beta}{\mu}R(\bar N+1) \tag{38}
+    \]
+    subject to
+    \begin{itemize}
+        \item $(d(\varepsilon),x(\varepsilon),N(\varepsilon))$ is the buyer's optimal contract given $(\mu,\tau)$;
+        \item DS constraint: $d(\varepsilon) = \frac{\mu}{\beta}\frac{x(\varepsilon)}{1-\tau} \le R(N(\varepsilon)+1)N(\varepsilon)$;
+        \item Planner's budget: $\tfrac{\beta}{\mu}R(\bar N+1) = B(\mu - 1 + \sigma\tau)\!\int\!\tfrac{x(\varepsilon)}{1-\tau}\,dF_\varepsilon(\varepsilon)$.
+    \end{itemize}
+    \vspace{2mm}
+    This is a \emph{Ramsey problem}: planner internalises that agents respond to $(\mu,\tau)$.
+\end{frame}
+
+\begin{frame}{The optimal design result}
+    \begin{proposition}[Optimal design]
+        The optimal reward structure sets transaction fees to zero and relies only on
+        seigniorage:
+        \[
+            \boxed{\;\tau = 0 \quad\text{and}\quad \mu > 1.\;}
+        \]
+    \end{proposition}
+    \vspace{3mm}
+    \textbf{Why?} Both $\mu$ and $\tau$ distort consumption, but their incidence differs:
+    \begin{itemize}
+        \item Inflation tax is paid by \emph{all} balance holders.
+        \item Transaction fees are paid only by buyers who \emph{actually trade} -- precisely
+              the agents with the highest valuation of balances.
+    \end{itemize}
+    Levying revenue through inflation smooths the distortion across all buyers.
+\end{frame}
+
+\begin{frame}{Intuition for the trade-off}
+    \begin{itemize}
+        \item Without rewards: no mining, no security, no equilibrium.
+        \item With too many rewards: mining is excessive; large deadweight loss.
+        \item Optimum balances the marginal benefit of relaxing the DS constraint
+              against the marginal cost of mining.
+    \end{itemize}
+    \vspace{3mm}
+    The result aligns with the broader monetary literature: \emph{ex ante} taxation (inflation
+    on all balances) dominates \emph{ex post} user fees when the latter target the most
+    elastic margin.
+\end{frame}
+
+\section{Calibration}
+
+\begin{frame}{Calibrating the model to Bitcoin}
+    Utility $u(x) = \log(x+b) - \log b$ with $b\approx 0$.
+    A period = 1 day, a trading session = 10 minutes (the average block time).
+    \vspace{2mm}
+    \begin{itemize}
+        \item $\beta = 0.9999$ ($\approx 0.97$ annual);
+        \item 2015 Bitcoin supply: $14{,}342{,}503$ BTC;
+        \item daily money growth: $\mu = (1 + 25/14342503)^{6\times 24} = 1.00025$, $\approx 9.6\%$ annual;
+        \item $\sigma = 0.0178$ (fraction of BTC spent per day);
+        \item $\tau = 0.0088\%$ (from data on fees);
+        \item $B = 6{,}873{,}428$ (max number of average-sized transactions).
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Benchmark parameters}
+    \centering
+    \footnotesize
+    \begin{tabular}{lll}
+        \hline
+        Parameter & Value & Target \\
+        \hline
+        $\beta$ & 0.9999166 & period = 1 day \\
+        $\delta$ & 0.9999994 & $\delta = \beta^{1/(1+\bar N)}$ \\
+        $\mu$ & 1.00025 & Bitcoin money growth \\
+        $\tau$ & 0.000088 & Bitcoin transaction fee \\
+        $B$ & 6{,}873{,}428 & max no.\ of average-sized transactions \\
+        $\sigma$ & 0.0178 & velocity per block \\
+        $\alpha$ & 1 & normalisation \\
+        \hline
+    \end{tabular}
+    \vspace{4mm}
+
+    Preference shock distribution $F(\varepsilon)$ disciplined by the empirical distribution
+    of transaction sizes in \citet{ron2013}.
+\end{frame}
+
+\begin{frame}{Effects of money growth}
+    Numerical experiment around the calibrated $\mu$:
+    \vspace{2mm}
+    \begin{itemize}
+        \item Higher $\mu$ $\Rightarrow$ higher $R$ $\Rightarrow$ higher mining effort,
+              shorter average confirmation lag $N$.
+        \item Aggregate trade and utility \emph{rise} (DS constraint relaxes, lags shrink).
+        \item Mining cost \emph{rises} linearly with $\mu$.
+        \item Net welfare: \textbf{hump-shaped} in $\mu$.
+    \end{itemize}
+    \vspace{3mm}
+    Bitcoin's calibrated $\mu$ is on the \emph{high} side: more inflation than is optimal.
+\end{frame}
+
+\section{Welfare}
+
+\begin{frame}{Welfare measures}
+    Two consumption-equivalent measures:
+    \vspace{2mm}
+    \begin{itemize}
+        \item \textbf{Welfare cost.} Fraction of consumption a person would give up to use
+              cash under the Friedman rule (zero inflation) instead of cryptocurrency.
+        \item \textbf{Equivalent inflation tax.} Cash inflation rate that makes a person
+              indifferent between traditional cash and the cryptocurrency.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Bitcoin is very inefficient}
+    \centering
+    \small
+    \begin{tabular}{lcc}
+        \hline
+        & Bitcoin (benchmark) & Bitcoin (optimal) \\
+        \hline
+        $\mu - 1$ & 9.5\% & 0.17\% \\
+        $\tau$ & 0.0088\% & 0\% \\
+        welfare loss & \textbf{1.41\%} & \textbf{0.08\%} \\
+        mining cost (per year) & \$359.98 mn & \$6.90 mn \\
+        equivalent inflation tax & 230.44\% & 27.51\% \\
+        \hline
+    \end{tabular}
+    \vspace{4mm}
+    \begin{itemize}
+        \item Bitcoin's welfare cost: $\approx 1.4\%$ of consumption $\approx$ 500$\times$ a low-inflation
+              cash system (whose welfare cost is $\approx 0.003\%$).
+        \item Equivalent inflation tax of \textbf{230\%}: people would prefer cash even at
+              hyperinflationary rates.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Why is Bitcoin so inefficient?}
+    The driver is the \emph{mining cost} -- about \$360 million per year at the calibrated parameters.
+    \vspace{3mm}
+    \begin{itemize}
+        \item Bitcoin's reward structure (high $\mu$ + positive $\tau$) overcompensates miners.
+        \item Optimal design (Proposition: $\tau=0$, lower $\mu$) reduces mining to
+              \$6.9 million per year.
+        \item Welfare loss falls from 1.41\% to \textbf{0.08\%} -- comparable to a cash system with
+              moderate inflation.
+    \end{itemize}
+    \vspace{3mm}
+    The lesson: Bitcoin's inefficiency is largely a \emph{design} problem, not an
+    intrinsic feature of cryptocurrencies.
+\end{frame}
+
+\section{Best use cases}
+
+\begin{frame}{Retail vs.\ large value payments}
+    Recalibrate the model to two real-world payment systems (2014 US):
+    \vspace{2mm}
+    \begin{itemize}
+        \item \textbf{US Debit cards} (retail): avg transaction \$38.29; annual volume 59{,}539 mn.
+        \item \textbf{Fedwire} (large value): avg transaction \$6.55 million; annual volume 135 mn.
+    \end{itemize}
+    \vspace{3mm}
+    Period = 30 mins; block length = 1 min. Choose $\sigma$ and $\varepsilon$ to match each system.
+\end{frame}
+
+\begin{frame}{Welfare comparison}
+    \centering
+    \small
+    \begin{tabular}{lcc}
+        \hline
+        & Retail (Debit) & Large value (Fedwire) \\
+        \hline
+        avg transaction size & \$38.29 & \$6{,}552{,}236 \\
+        annual volume & 59{,}539 mn & 135 mn \\
+        optimal $\mu - 1$ & 0.038\% & 0.53\% \\
+        optimal $\tau$ & 0\% & 0\% \\
+        confirmation lag & 2 mins & 12 mins \\
+        \textbf{welfare loss} & \textbf{0.00052\%} & \textbf{0.0060\%} \\
+        mining cost (per year) & \$4.33 mn & \$22.10 bn \\
+        equivalent fee (per transfer) & \$0.0002 & \$392.56 \\
+        \hline
+    \end{tabular}
+    \vspace{2mm}
+    \begin{itemize}
+        \item Optimal $\mu$ is much lower than Bitcoin's for both systems.
+        \item Retail welfare loss is two orders of magnitude smaller than large-value.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Why is retail more efficient?}
+    \begin{itemize}
+        \item Double-spending incentives \emph{scale with transaction size} $d$, while mining cost
+              is a public good financed by aggregate volume.
+        \item Small individual transactions $\Rightarrow$ DS constraint is easy to satisfy with little mining.
+        \item Large individual transactions $\Rightarrow$ require lots of mining and long lags.
+    \end{itemize}
+    \vspace{3mm}
+    Equivalent fee comparison:
+    \begin{itemize}
+        \item Cryptocurrency retail: 0.02 cents/transfer vs.\ debit card interchange $\approx$ 23 cents.
+        \item Cryptocurrency large value: \$392 vs.\ Fedwire service fee $\approx$ 82 cents.
+    \end{itemize}
+    \vspace{3mm}
+    Cryptocurrencies can plausibly compete with retail systems; for large-value
+    transactions, centralised systems remain far more efficient.
+\end{frame}
+
+\section{Policy and scaling}
+
+\begin{frame}{Scalability is the binding constraint}
+    For cryptocurrencies to compete with debit cards they must process \emph{enormous} transaction
+    volumes.
+    \vspace{2mm}
+    \begin{itemize}
+        \item Bitcoin: $\approx 7$ transactions per second (TPS) cap.
+        \item Visa: $\approx 1{,}700$ TPS sustained, peaks $> 24{,}000$.
+        \item Block-size limits, network latency, propagation delays all bind.
+    \end{itemize}
+    \vspace{3mm}
+    The model takes scaling as exogenous, but the welfare results say:
+    \emph{if technological scalability is solved, optimally designed cryptocurrencies
+    can challenge retail payment networks.}
+\end{frame}
+
+\begin{frame}{Caveats}
+    The comparison is suggestive, not definitive:
+    \vspace{2mm}
+    \begin{itemize}
+        \item Ignores private costs: data storage, wallets, exchanges, software.
+        \item Mining cost is a deadweight loss; some of Visa/Fedwire's fees are
+              provider \emph{profits}, not operating cost.
+        \item Ignores network/scaling constraints (assumed solved).
+        \item Ignores volatility of the cryptocurrency's value.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Policy implications}
+    \begin{itemize}
+        \item \textbf{Central bank digital currency (CBDC).} The model puts bounds on
+              the cost of issuing digital currency centrally vs.\ via PoW.
+        \item \textbf{Reward design.} Existing cryptocurrencies should consider eliminating
+              transaction fees and using only seigniorage.
+        \item \textbf{Reform Bitcoin?} Lower money growth and remove fees $\Rightarrow$ welfare cost
+              drops by an order of magnitude.
+        \item \textbf{Scaling debate.} On-chain scaling is the binding technological constraint
+              if cryptocurrencies are to displace cards.
+    \end{itemize}
+\end{frame}
+
+\section{Wrap-up}
+
+\begin{frame}{What we've learned}
+    \begin{enumerate}
+        \item \textbf{Optimal design.} Finance mining via seigniorage only ($\tau=0$, $\mu>1$).
+              Inflation spreads the distortion across all balance holders.
+        \vspace{2mm}
+        \item \textbf{Bitcoin is poorly designed.} Welfare cost 1.4\% of consumption,
+              mostly wasted on mining.
+        \vspace{2mm}
+        \item \textbf{Best use case is retail.} Cryptocurrencies scale efficiently in
+              volume but not in transaction size.
+        \vspace{2mm}
+        \item \textbf{Scaling is the real bottleneck.} If technological limits can be
+              overcome, well-designed cryptocurrencies could compete with debit cards.
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}{Open questions and extensions}
+    \begin{itemize}
+        \item Endogenous scalability: model block size, latency, network propagation.
+        \item Alternative consensus protocols (proof-of-stake, BFT).
+        \item Volatility and price discovery for the cryptocurrency.
+        \item Interaction with central bank policy (CBDCs, negative rates).
+        \item Coordinated double-spending attacks (footnote 21: $d n_b < R(N+1)N$).
+        \item Smart contracts and programmable money.
+    \end{itemize}
+\end{frame}
+
+{
+\setbeamercolor{background canvas}{bg=black}
+\begin{frame}
+    \centering
+    \vspace{2mm}
+    \Huge \textcolor{white}{\textbf{Thank you}}
+\end{frame}
+}
+
+\begin{frame}[allowframebreaks]{References}
+    \small
+    \begin{thebibliography}{99}
+        \bibitem[Chiu and Koeppl(2017)]{chiu2017}
+            Chiu, J.\ and T.\ V.\ Koeppl (2017). The Economics of Cryptocurrencies --
+            Bitcoin and Beyond. \textit{Bank of Canada Staff Working Paper / Queen's University}.
+        \bibitem[Lagos and Wright(2005)]{lagos2005}
+            Lagos, R.\ and R.\ Wright (2005). A Unified Framework for Monetary Theory
+            and Policy Analysis. \textit{Journal of Political Economy} 113(3), 463--484.
+        \bibitem[Ron and Shamir(2013)]{ron2013}
+            Ron, D.\ and A.\ Shamir (2013). Quantitative Analysis of the Full Bitcoin Transaction Graph.
+            \textit{Financial Cryptography}.
+    \end{thebibliography}
+\end{frame}
+
+\end{document}
