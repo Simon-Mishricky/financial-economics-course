@@ -44,7 +44,6 @@ financial-economics-anu/
 ├── tutorials/          Tutorial problem sets (PDF)
 ├── assignments/        Take-home assignments (PDF)
 ├── exams/              Final examination papers (PDF)
-├── Slides.tex          LaTeX source for selected slide material
 └── README.md
 ```
 
